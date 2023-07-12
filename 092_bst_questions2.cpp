@@ -151,14 +151,26 @@ void mergeArr(vector<int> &in1, vector<int> &in2, vector<int> &ans)
         j++;
     }
 }
-vector<int> merge(Node *root1, Node *root2)
+Node *makeTree(vector<int> &in, int s, int e) // Passing the vector here by reference consumes much less time and memory
+{
+    if (s > e)
+    {
+        return NULL;
+    }
+    int m = (s + e) / 2;
+    Node *root = new Node(in[m]);
+    root->left = makeTree(in, s, m - 1);
+    root->right = makeTree(in, m + 1, e);
+    return root;
+}
+Node * merge(Node *root1, Node *root2)
 {
     // Your code here
     vector<int> in1, in2, ans;
     inorder(root1, in1);
     inorder(root2, in2);
     mergeArr(in1, in2, ans);
-    return ans;
+    return makeTree(ans, 0, ans.size());
 }
 // Approach 2: Here we optimize space complexity by using linked lists to O(h1 + h2)
 // Converting a BST into DoublyLL
@@ -265,6 +277,76 @@ Node * mergeBST(Node * root1, Node * root2){
     return sortedLLtoBST(head, countNodes(head));
 }
 
+// SIZE OF A LARGEST BST IN A BINARY TREE
+// Approach 1: In this approach we visit every node and check whether the tree below it is a BST or not and end up having a time complexity of O(n^2), which gets optimized in the next approach
+// bool solve(TreeNode *root, int min, int max, int &sum)
+// {
+//     if (!root)
+//         return true;
+//     sum+=root->val;
+//     if (root->val <= min || root->val >= max)
+//         return false;
+//     else
+//         return (solve(root->left, min, root->val, sum) && solve(root->right, root->val, max, sum));
+// }
+// bool isValidBST(TreeNode *root, int &sum)
+// {
+//     int min = 0, max = INT_MAX;
+//     return solve(root, min, max, sum);
+// }
+// void helper(TreeNode *root, int &ans){
+//     if(!root)
+//     return;
+//     int sum=0;
+//     if(isValidBST(root, sum)){
+//         ans = max(ans, sum);
+//         return;
+//     }
+//     helper(root->left, ans);
+//     helper(root->right, ans);
+// }
+// int maxSumBST(TreeNode* root) {
+//     int ans = 0;
+//     helper(root, ans);
+//     return ans;
+// }
+// Approach 2: Here we create a class containing some information and we update that info as we visit every node and this way we only traverse the tree once and hence solving the problem with O(n) TC
+// class info{
+//     public:
+//     int maxi;
+//     int mini;
+//     bool isBST;
+//     int size;
+// };
+
+// info solve(TreeNode <int> *root, int &ans){
+//     if(!root) return {INT_MIN, INT_MAX, true, 0};
+
+//     info left = solve(root->left, ans);
+//     info right = solve(root->right, ans);
+
+//     info Curr;
+//     Curr.size = left.size + right.size + 1;
+//     Curr.maxi = max(right.maxi, root->data);
+//     Curr.mini = min(left.mini, root->data);
+
+//     if(left.isBST && right.isBST && root->data>left.maxi && root->data<right.mini)
+//     Curr.isBST = true;
+//     else
+//     Curr.isBST = false;
+
+//     if(Curr.isBST)
+//     ans = max(ans, Curr.size);
+
+//     return Curr;
+// }
+// int largestBST(TreeNode<int>* root) 
+// {
+//     // Write your code here.
+//     int maxSize=0;
+//     info temp = solve(root, maxSize);
+//     return maxSize;
+// }
 int main()
 {
 
