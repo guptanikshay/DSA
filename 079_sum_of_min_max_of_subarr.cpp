@@ -1,3 +1,5 @@
+// You are given an array of size 'n' and an integer 'k'. Your task is to determine the sum of the minimum and maximum elements of all subarrays of size 'k'. 
+// A subarray is formed by deleting a few (possibly zero) elements from the front and back of an array.
 #include <bits/stdc++.h> 
 using namespace std;
 

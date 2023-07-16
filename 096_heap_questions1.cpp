@@ -55,7 +55,7 @@ int kthSmallest(int arr[], int l, int r, int k)
 // }
 
 // MERGE TWO MAXHEAPS
-// The appraoch is to merge the given arrays to form a single in any order and then heapify this array and return the final array as answer.
+// The appraoch is to merge the given arrays to form a single array in any order and then heapify this array and return the final array as answer.
 
 // MINIMUM COST OF ROPES
 // long long minCost(long long arr[], long long n)

@@ -1,58 +1,55 @@
-#include <iostream>
-#include <vector>
-
-int alphaBitwise(std::vector<int>& array) {
-    int n = array.size();
-    int totalCount = 0;
-
-    // Calculate the total count of set bits in all elements
-    for (int i = 0; i < n; i++) {
-        int count = 0;
-        int num = array[i];
-
-        while (num > 0) {
-            count += num & 1;
-            num >>= 1;
-        }
-
-        totalCount += count;
-    }
-
-    // Check if the total count is greater than half the size of the array
-    int halfSize = n / 2;
-    int result = 0;
-
-    if (totalCount > halfSize) {
-        // Set all bits in the result
-        for (int i = 0; i < 32; i++) {
-            result |= (1 << i);
-        }
-    }
-
-    return result;
-}
+#include <bits/stdc++.h>
+using namespace std;
 
 int main() {
-    int n;
-    std::cout << "Enter the size of the array: ";
-    std::cin >> n;
-
-    std::vector<int> array(n);
-
-    std::cout << "Enter the elements of the array: ";
-    for (int i = 0; i < n; i++) {
-        std::cin >> array[i];
-    }
-
-    int alpha = alphaBitwise(array);
-
-    std::cout << "The alpha bitwise of the array is: " << alpha << std::endl;
-
-    return 0;
+	// your code goes here
+	int t;
+	cin>>t;
+	while(t--){
+	    int n, flag = 0;
+	    cin>>n;
+	    char s[n];
+	    map<char, vector<int>> index;
+	    for(int i=0; i<n; i++){
+	        cin>>s[i];
+	        index[s[i]].push_back(i);
+	    }
+	    if(n%3==1)
+	    cout<<"YES\n";
+	    else if(n%3==0){
+	        for(auto i: index){
+	            if(i.second.size()%3==0){
+	                for(int j = 0; j<i.second.size()-1; j++){
+	                    if((i.second[j+1]-i.second[j]-1)%3==0)
+	                    flag=1;
+	                    else
+	                    flag=0;
+	                }
+	                if(flag){
+	                    cout<<"YES\n";
+	                    break;
+	                }
+	            }
+	        }
+	        if(!flag) cout<<"NO\n";
+	    }
+	    else{
+	        for(auto i: index){
+	            if(i.second.size()>1){
+	                for(int j = 0; j<i.second.size()-1; j++){
+	                    if((i.second[j+1]-i.second[j]-1)%3==0){
+	                        flag=1;
+	                        break;
+	                    }
+	                }
+	                if(flag){
+	                    cout<<"YES\n";
+	                    break;
+	                }
+	            }
+	        }
+	        if(!flag) cout<<"NO\n";
+	    }
+	}
+	return 0;
 }
-
-// bool isMaxOrder(TreeNode * root){
-//         if(!root || (!root->left && !root->right)) return true;
-//         if(!root->right) return (root->data > root->left->data);
-//         return (root->data>root->left->data && root->data>root->right->data && isMaxOrder(root->right) && isMaxOrder(root->left));
-//     }
