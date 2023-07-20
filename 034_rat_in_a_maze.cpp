@@ -44,9 +44,7 @@ void soln(vector<vector<int>> m, int n, int x, int y, vector<vector<int>> visite
     newx = x - 1, newy = y;
     if (isSafe(m, n, newx, newy, visited))
     {
-        path.push_back('U');
-        soln(m, n, newx, newy, visited, path, ans);
-        path.pop_back();
+        soln(m, n, newx, newy, visited, path + 'U', ans);
     }
     visited[x][y] = 0;
 }
