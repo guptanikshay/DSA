@@ -1,7 +1,7 @@
 #include <bits/stdc++.h> 
 using namespace std;
 
-// PS: Print BFS of an undirected and disconnected graph. Breadth First Search Traversal of a graph is an algorithm used to visit all the nodes in a graph. In this algo, one node is selected and then all the nodes connected to it are visited one by one. A graph is disconnected if at least two nodes are not connected by a path.
+// PS: Print BFS of an undirected and disconnected graph. Breadth First Search Traversal of a graph is an algorithm used to visit all the nodes in a graph. In this algo, one node is selected and then all the nodes connected to it are visited one by one. A graph is disconnected if at least two nodes are not connected by a path. TC=O(N), N=>no. of nodes
 void createAdjList(vector<pair<int,int>> &edges, unordered_map <int, set<int>> &adjList){
     for(auto i: edges){
         adjList[i.first].insert(i.second);
@@ -38,7 +38,7 @@ vector<int> BFS(int vertex, vector<pair<int, int>> edges)
     return ans;
 }
 
-// DFS:- In this traversal, we visit the first node and then visit the next node connected and then the next node connected to this node (unlike BFS in which we visit all the adjacent nodes of a single node first).
+// DFS:- In this traversal, we visit the first node and then visit the next node connected and then the next node connected to this node (unlike BFS in which we visit all the adjacent nodes of a single node first).  TC=O(N), N=>no. of nodes
 void dfs(int i, unordered_map<int, list<int>> &adjList, unordered_map<int, bool> &visited, vector<int> &row){
     row.push_back(i);
     visited[i] = true;
