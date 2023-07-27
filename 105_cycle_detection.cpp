@@ -1,7 +1,7 @@
 #include <bits/stdc++.h>
 using namespace std;
 // CYLCE DETECTION IN UNDIRECTED GRAPHS
-// Approach 1 (Using BFS): First of all we create the adjacency list using the edges vector and we keep track of all the visited nodes using the visited map. Call the function bfs for all the non visited nodes. Push the node in the queue, make its visited true, and keep track of its parent using the parent map. Now we traverse every node by pushing and popping from the queue and check whether its visited and its parent is not the last popped node and if thats true then a cycle is present as we are visiting the same node again while traversing. If the node is unvisited, we update the parent map and visited map and push it into the queue. TC=O(N+E), N=>no. of nodes, E=>no. of edges
+// Approach 1 (Using BFS): First of all we create the adjacency list using the edges vector and we keep track of all the visited nodes using the visited map. Call the function bfs for all the non visited nodes. Push the node in the queue, make its visited true, and keep track of its parent using the parent map. Now we traverse every node by pushing and popping from the queue and check whether its visited is true and its parent is not the last popped node and if thats true then a cycle is present as we are visiting the same node again while traversing. If the node is unvisited, we update the parent map and visited map and push it into the queue. TC=O(N+E), N=>no. of nodes, E=>no. of edges
 bool isCyclicBFS(int node, unordered_map<int, bool> visited, unordered_map<int, list<int>> adjList)
 {
     unordered_map<int, int> parent;
@@ -89,7 +89,7 @@ string cycleDetection(vector<vector<int>> &edges, int n, int m)
 }
 
 // CYCLE DETECTION IN DIRECTED GRAPHS
-// Approach (Using DFS): The approach is mostly same as for undirected graphs. The change is that we use a new data structure dfsVisited to keep track of the nodes that are visited in the dfs traversal in one go. We make dfsVisited[node]=true when we enter the recursive call and make if false as we backtrack it. TC=O(N+E)
+// Approach (Using DFS): The approach is mostly same as for undirected graphs. The change is that we use a new data structure dfsVisited to keep track of the nodes that are visited in the dfs traversal in one go. We make dfsVisited[node]=true when we enter the recursive call and make it false as we backtrack from the call. While traversing the graph, if at any instant a node has dfsVisited==true, a cycle is present. TC=O(N+E)
 bool isCyclicDFS(int node, unordered_map<int, bool> &visited, unordered_map<int, bool> &dfsVisited, unordered_map<int, list<int>> &adjList)
 {
     visited[node] = true;

@@ -47,8 +47,8 @@ vector<int> topologicalSort(vector<pair<int, int>> &edges, int N, int M)
 // NOTE:- Indegree of a vertex is defined as the no. of incoming edges on that vertex in a directed graph.
 
 // TOPOLOGICAL SORT USING BFS (KAHN'S ALGORITHM)
-// Approach: 1. Find the indegree of all the nodes   2. Push the nodes having indegree=0 into the queue, then pop it and insert it in the ans vector  3. Now do BFS of the graph and decrement the indegree of the all the neighbour nodes of the front node   4. Again push all the nodes with indegree=0 into the queue, then pop the front node and insert it in ans and decrement indegree of the neigbour nodes  5. Continue this process until a node with zero neighbours are encountered
-// TC=O(N+E) SC=O(N+E) 
+// Approach: 1. Find the indegree of all the nodes   2. Push the nodes having indegree=0 into the queue, then pop the front node and insert it in the ans vector  3. Now do BFS of the graph and decrement the indegree of the all the neighbour nodes of the front node   4. Again push all the nodes with indegree=0 into the queue, then pop the front node and insert it in ans and decrement indegree of the neigbour nodes  5. Continue this process until a node with zero neighbours is encountered
+// TC=O(N+E) SC=O(N+E)
 vector<int> topologicalSort(vector<vector<int>> &edges, int v, int e)
 {
     // Write your code here
@@ -84,31 +84,38 @@ vector<int> topologicalSort(vector<vector<int>> &edges, int v, int e)
 // CYCLE DETECTION IN DIRECTED GRAPHS USING BFS
 // Approach: We use Kahn's algorithm to count the number of nodes in the topological sort, if they are equal to the number of elements in graph, then its valid topological sort and the graph does not have any cycle. If it is not equal to no. of elements, then its invalid TS and a cycle exits.
 #include <bits/stdc++.h>
-bool isCyclic(vector<vector<int>>& edges, int v, int e)
+bool isCyclic(vector<vector<int>> &edges, int v, int e)
 {
-	// Write your code here
-	unordered_map<int, list<int>> adjList;
+    // Write your code here
+    unordered_map<int, list<int>> adjList;
     vector<int> indegree(v);
-    for(int i=0; i<e; i++){
+    for (int i = 0; i < e; i++)
+    {
         adjList[edges[i][0]].push_back(edges[i][1]);
         indegree[edges[i][1]]++;
     }
     queue<int> q;
-    int cnt=0;
-    for(int i=0; i<v; i++){
-        if(indegree[i]==0) q.push(i);
+    int cnt = 0;
+    for (int i = 0; i < v; i++)
+    {
+        if (indegree[i] == 0)
+            q.push(i);
     }
-    while(!q.empty()){
+    while (!q.empty())
+    {
         int front = q.front();
         cnt++;
         q.pop();
-        for(auto i: adjList[front]){
+        for (auto i : adjList[front])
+        {
             indegree[i]--;
-            if(indegree[i]==0) q.push(i);
+            if (indegree[i] == 0)
+                q.push(i);
         }
     }
-    if(cnt==v) return false;
-	return true;
+    if (cnt == v)
+        return false;
+    return true;
 }
 int main()
 {

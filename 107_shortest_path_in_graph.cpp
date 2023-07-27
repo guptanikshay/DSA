@@ -2,11 +2,10 @@
 using namespace std;
 
 // SHORTEST PATH IN UNDIRECTED GRAPHS: Given a source node and terminal node, find the shortest path between them.
-// Approach:-  1. Create adjacency list   2. Make visited and parent maps and put inputs into them using bfs   3. Grab the terminal node and traverse back towards the source node and count the number of nodes in that path and this count will be the ans
+// Approach:-  1. Create adjacency list   2. Make visited and parent maps and put inputs into them using bfs   3. Grab the terminal node and traverse back towards the source node using the parent map and count the number of nodes in that path and this count will be the ans
 // TC=O(N+E)   SC=O(N+E)
 // vector<int> shortestPath(vector<pair<int, int>> edges, int n, int m, int s, int t)
 // {
-
 //     // Write your code here
 //     unordered_map<int, list<int>> adjList;
 //     for (int i = 0; i < edges.size(); i++)
@@ -47,6 +46,7 @@ using namespace std;
 // }
 
 // SHORTEST PATH IN DIRECTED ACYCLIC GRAPH
+// Approach: 1. Create an adjacency list that includes the index of the node mapped with a pair containing the connected node and weight of the edge   2. Store the topological sort of the graph in a stack   3.Create a distance array that stores the distance of every node from the source node. Initialize the distance array with INF (infinity)   4. Update the distance of source node as 0 and pull the top element from stack and check if its distance is infinite, if yes, move to the next stack element, and if no then check for each node 'i' (using adjacency list) that is reachable from this node for the total distance (dist[top] + i.second) being smaller than the orignal value in distance array (dist[i.first]) and if its true then update this value else move to next 'i'. When all 'i's are traversed move to the next stack element. Continue this process until the stack is empty.
 // TC=O(N+E)  SC=O(N+E)
 class Graph
 {
