@@ -3,7 +3,10 @@ using namespace std;
 
 // SPANNING TREE:- When you convert a graph into a tree such that it contains n nodes and n-1 edges and every node is reachable through every other node.
 // Find the minimum spanning tree using Prim's Algorithm for the given graph.
-// Approach:- We need 3 arrays which are key[], parent[], mst[] and the adjacency list and initialize them as per requirement
+// Approach:- We need 3 arrays which are key[n], parent[n], mst[n] (n=> no. of nodes) and the adjacency list and initialize all their elements with INF, -1 and false respectively. Then we make the key[src]=0 and start algorithm which has the following steps:
+// 1. Find the min element in the key array and store its index and the minimum value.
+// 2. Make mst[index]=true and traverse the neighbours of that index
+// 3. If mst[neighbour.node]=false and neighbour.weight<key[neighbour.node], update parent[neighbour.node]=index and key[neighbour.node]=neighbour.weight, and continue this loop for i=0 to i<n
 vector<pair<pair<int, int>, int>> calculatePrimsMST(int n, int m, vector<pair<pair<int, int>, int>> &g)
 {
     // Write your code here.
