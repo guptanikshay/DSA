@@ -7,6 +7,7 @@ using namespace std;
 // 1. Find the min element in the key array and store its index and the minimum value.
 // 2. Make mst[index]=true and traverse the neighbours of that index
 // 3. If mst[neighbour.node]=false and neighbour.weight<key[neighbour.node], update parent[neighbour.node]=index and key[neighbour.node]=neighbour.weight, and continue this loop for i=0 to i<n
+// TC=O(N^2), but it can be optimized to O(N logN) using Heaps, SC=O(N)
 vector<pair<pair<int, int>, int>> calculatePrimsMST(int n, int m, vector<pair<pair<int, int>, int>> &g)
 {
     // Write your code here.

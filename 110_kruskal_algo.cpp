@@ -3,7 +3,11 @@ using namespace std;
 
 // DISJOINT SET DATA STRUCTURE (PreRequisite)
 // Two sets are called disjiont if they don't have any element in common.
-// A disjoint set data structure is
+// A disjoint set data structure is the one that stores disjoint subset of elements. It supports operations like adding elements to a disjoint set, merging 2 disjoint sets using Union operation and finding the parent/representative of a disjoint set.
+
+// PS: FIND THE MINIMUM SPANNING TREE OF A GIVEN GRAPH USING KRUSKAL'S ALGORITHM
+// Approach:- 1. Create arrays parent and rank of nodes and initialize them using makeSet operation. Initially, the parent of node will be the node itself and rank of all nodes will be 0    2. The union set operation finds the parents of both input nodes and if the rank of parents are same, any node is made the new parent of the other node and the rank this parent node is incremented, else if the ranks are different, one with the higher rank is made the parent and no ranks are incremented    3. To find the weight of the MST, we find the parents of the input nodes and if they are different (i.e., belong to different disjoint sets) we merge them using the UnionSet operation and add the weight of this edge to our ans and return the ans in final step
+// TC=O(N logN)    SC=O(N)
 bool cmp(vector<int> &a, vector<int> &b)
 {
     return a[2] < b[2];
