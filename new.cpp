@@ -1,34 +1,61 @@
-#include <iostream>
+#include <bits/stdc++.h>
 using namespace std;
-#define ll long long
+
 int main()
 {
 	int t;
 	cin >> t;
 	while (t--)
 	{
-		int n, flag = 0;
+		string n;
 		cin >> n;
-		long long arr[n];
-		for (int i = 0; i < n; i++)
-			cin >> arr[i];
-		long long minDiff = INT_MAX;
-		for (int i = 0; i < n - 1; i++)
+		int size = n.size(), i = n.size() - 1;
+		map<int, bool> flag;
+		while (i >= 0)
 		{
-			if (arr[i] > arr[i + 1])
+			if ((n[i] - 48) < 5)
+				i--;
+			else
 			{
-				flag = 1;
-				break;
+				if (i != 0)
+				{
+					for (int j = i; j < size; j++)
+					{
+						if (n[j] == 48)
+							break;
+						else
+							n[j] = 48;
+					}
+					n[i - 1]++;
+				}
+				else
+				{
+					for (int j = i; j < size; j++)
+					{
+						if (n[j] == 48)
+							break;
+						else
+							n[j] = 48;
+					}
+					n[i] = 49;
+					n.push_back(48);
+				}
 			}
-			if (arr[i + 1] - arr[i] < minDiff)
-				minDiff = arr[i + 1] - arr[i];
 		}
-		if (flag)
-			cout << 0 << "\n";
-		else if (minDiff % 2 == 0)
-			cout << (minDiff + 2) / 2 << "\n";
-		else
-			cout << (minDiff + 1) / 2 << "\n";
+		// int zeroI = -1;
+		// for (int i = 0; i < size; i++)
+		// {
+		// 	if (n[i] + 48 < 5)
+		// 		continue;
+		// 	else
+		// 	{
+		// 		zeroI = i;
+		// 		if (i != 0)
+		// 		{
+		// 		}
+		// 	}
+		// }
+		cout << n << "\n";
 	}
 	return 0;
 }
