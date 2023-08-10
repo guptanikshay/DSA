@@ -1,4 +1,4 @@
-// Using Morris Traversal we can get the inorder traversal with using stack or recursion and hence solving the problem in O(1) extra space. The algorithm is as follows
+// Using Morris Traversal we can get the inorder traversal without using stack or recursion and hence solving the problem in O(1) extra space. The algorithm is as follows
 // 1. Initialize current as root
 // 2. While current is not NULL
 //    If the current does not have left child
