@@ -6,7 +6,7 @@ int main()
     // int n;
     // cout << "Enter the value of n: ";
     // cin >> n;
-    // // Creating an array of nxn
+    // // Creating an array of n x n
     // int **arr = new int *[n];
     // for (int i = 0; i < n; i++)
     // {

@@ -1,37 +1,19 @@
-#include <bits/stdc++.h>
+#include <iostream>
 using namespace std;
-
+bool isPrime(int n)
+{
+	if (n <= 1)
+		return false;
+	for (int i = 2; i * i < n; i++)
+		if (n % i == 0)
+			return false;
+	return true;
+}
 int main()
 {
-	// int t;
-	// cin >> t;
-	// while (t--)
-	// {
-	string n;
-	cin >> n;
-	int size = n.size(), i = n.size() - 1;
-	while (i >= 0)
-	{
-		if ((n[i] - 48) < 5)
-			i--;
-		else
-		{
-			if (i != 0)
-			{
-				for (int j = i; j < size; j++)
-					n[j] = 48;
-				n[i - 1]++;
-			}
-			else
-			{
-				for (int j = i; j < size; j++)
-					n[j] = 48;
-				n[i] = 49;
-				n.push_back(48);
-			}
-		}
-	}
-	cout << n << "\n";
-	// }
+	if (isPrime(231))
+		cout << "YES\n";
+	else
+		cout << "NO\n";
 	return 0;
 }
