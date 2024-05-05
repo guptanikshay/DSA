@@ -12,7 +12,7 @@ void printarray(int arr[], int n)
         cout << arr[i] << " ";
     cout << "\n";
 }
-// BUBBLE SORT: Compares the adjacent elements, swaps them if first one is smaller. In this algo, the largest element is placed at its right position in the first iteration and then the second largest and so on.
+// BUBBLE SORT: Compares the adjacent elements, swaps them if first one is greater. In this algo, the largest element is placed at its right position in the first iteration and then the second largest and so on.
 void bubbleSort(int arr[], int n)
 {
     for (int i = n - 1; i > 0; i--)
@@ -35,7 +35,6 @@ void insertionSort(int arr[], int n)
             swap(arr[j], arr[j + 1]);
             j--;
         }
-        arr[j + 1] = key;
     }
 }
 // SELECTION SORT: We select one position and find the element that should be placed in that position. Basically, we select the first position and find the minimum element in the entire array and swap that element with the first position element. Then we select the second position and find the minimum element in the array after first element and swap it with the second position element and so on.
@@ -54,9 +53,10 @@ void selectionSort(int arr[], int n)
 }
 int main()
 {
-    int arr[] = {2, 4, 1, 5, 3};
-    // insertionSort(arr, 5);
-    selectionSort(arr, 5);
-    printarray(arr, 5);
+    int arr[] = {4, 2, 1, 3};
+    int n = sizeof(arr) / sizeof(int);
+    insertionSort(arr, n);
+    // selectionSort(arr, 5);
+    printarray(arr, n);
     return 0;
 }
