@@ -1,10 +1,12 @@
 #include <iostream>
 using namespace std;
-class Node{
-    public:
+class Node
+{
+public:
     int data;
-    Node * next;
-    Node(int data){
+    Node *next;
+    Node(int data)
+    {
         this->data = data;
         this->next = NULL;
     }
@@ -51,51 +53,64 @@ Node *reverseLL(Node *head)
     }
     return prev;
 }
-Node * addLL(Node * no1, Node * no2){
+Node *addLL(Node *no1, Node *no2)
+{
     no1 = reverseLL(no1);
     no2 = reverseLL(no2);
-    Node * t1 = no1, * t2 = no2;
-    Node * no3 = new Node(0);
-    Node * ptr = no3;
+    Node *t1 = no1, *t2 = no2;
+    Node *no3 = new Node(0);
+    Node *ptr = no3;
     int sum = 0, carry = 0;
-    while(t1!=NULL && t2!=NULL){
+    while (t1 != NULL && t2 != NULL)
+    {
         sum = t1->data + t2->data;
-        Node * temp = new Node((sum+carry)%10);
+        Node *temp = new Node((sum + carry) % 10);
         ptr->next = temp;
         ptr = temp;
-        carry = sum/10;
-        t1 = t1 ->next;
+        carry = sum / 10;
+        t1 = t1->next;
         t2 = t2->next;
     }
-    if(t1==NULL)
-    ptr->next = t2;
+    if (t1 == NULL)
+        ptr->next = t2;
     else
-    ptr->next = t1;
-    if(carry!=0){
-        Node * c = new Node(carry);
+        ptr->next = t1;
+    while (carry != 0 && ptr->next != NULL)
+    {
+        sum = ptr->next->data + carry;
+        carry = sum / 10;
+        ptr->next->data = sum % 10;
+        ptr = ptr->next;
+    }
+    if (carry != 0)
+    {
+        Node *c = new Node(carry);
         ptr->next = c;
         ptr = c;
     }
-    Node * t = no3;
+    Node *t = no3;
     no3 = no3->next;
     delete t;
     no3 = reverseLL(no3);
     return no3;
 }
-int main(){
+int main()
+{
     Node *no1 = new Node(9);
     insertAtTail(no1, 9);
-    // insertAtTail(no1, 2);
-    // insertAtTail(no1, 5);
-    Node * no2 = new Node(9);
-    insertAtTail(no2, 9);
-    // insertAtTail(no2, 0);
+    insertAtTail(no1, 9);
+    insertAtTail(no1, 5);
+    insertAtTail(no1, 6);
+    Node *no2 = new Node(6);
+    insertAtTail(no2, 2);
+    insertAtTail(no2, 1);
     // insertAtTail(no2, 9);
     // insertAtTail(no2, 9);
-    cout<<"The numbers to be added are \n";
-    printLL(no1); printLL(no2);
-    Node * no3 = addLL(no1, no2);
-    cout<<"Their sum is \n";
+    cout << "The numbers to be added are \n";
+    printLL(no1);
+    printLL(no2);
+    Node *no3 = addLL(no1, no2);
+    cout << "Their sum is \n";
     printLL(no3);
     return 0;
 }

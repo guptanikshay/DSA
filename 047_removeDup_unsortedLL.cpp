@@ -56,8 +56,6 @@ void removeDup(Node *&head)
                 Node *toDel = temp;
                 prev->next = temp->next;
                 temp = temp->next;
-                if (temp != NULL)
-                    temp = temp->next;
                 delete toDel;
             }
         }
@@ -96,7 +94,7 @@ int main()
     insertAtTail(head, 9);
     cout << "The list before removing duplicates is\n";
     printLL(head);
-    removeDup2(head);
+    removeDup(head);
     cout << "The list after removing duplicates is\n";
     printLL(head);
     return 0;
