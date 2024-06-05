@@ -184,7 +184,7 @@ vector<int> topView(Node *root)
             nodes[hd][lvl] = temp.first->data;
         if (temp.first->left)
             q.push(make_pair(temp.first->left, make_pair(hd - 1, lvl + 1)));
-        if (temp.first->right) 
+        if (temp.first->right)
             q.push(make_pair(temp.first->right, make_pair(hd + 1, lvl + 1)));
     }
     for (auto it = nodes.begin(); it != nodes.end(); it++)
@@ -297,7 +297,7 @@ void solve(Node *root, vector<int> &ans, int level)
     solve(root->right, ans, level + 1);
     solve(root->left, ans, level + 1);
 }
-vector<int> leftView(Node *root)
+vector<int> rightView(Node *root)
 {
     vector<int> ans;
     solve(root, ans, 0);

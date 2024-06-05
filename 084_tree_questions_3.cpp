@@ -15,10 +15,10 @@ public:
     }
 };
 
-// SUM OF LONGEST BLOODLINE (From root to leaf) OF A TREE 
+// SUM OF LONGEST BLOODLINE (From root to leaf) OF A TREE
 pair<int, int> maxDepthSum(Node *root)
 {
-    pair<int, int> ans;
+    pair<int, int> ans; // First value stores depth and second value stores the sum
     ans.first = 0;
     ans.second = 0;
     if (!root)
@@ -49,7 +49,6 @@ pair<int, int> maxDepthSum(Node *root)
 int sumOfLongRootToLeafPath(Node *root)
 {
     // code here
-    int sum = 0, count = 0;
     pair<int, int> ans = maxDepthSum(root);
     return ans.second;
 }
@@ -225,7 +224,7 @@ pair<int, int> solve(Node *root)
     pair<int, int> right = solve(root->right);
 
     res.first = root->data + left.second + right.second;
-    res.second = max(left.first, left.second) + max(right.first, right.second); 
+    res.second = max(left.first, left.second) + max(right.first, right.second);
     return res;
 }
 int getMaxSum(Node *root)

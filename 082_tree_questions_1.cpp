@@ -31,19 +31,21 @@ int maxDepth(Node *root)
 }
 
 // DIAMETER OF BINARY TREE
+// The diameter/width of a tree is defined as the number of nodes on the longest path between two end nodes.
 int diameterOfBinaryTree(Node *root)
 {
     if (root == NULL)
         return 0;
     int op1 = diameterOfBinaryTree(root->left);
     int op2 = diameterOfBinaryTree(root->right);
-    int op3 = maxDepth(root->left) + maxDepth(root->right);
+    int op3 = maxDepth(root->left) + maxDepth(root->right) + 1;
 
     int ans = max(op1, max(op2, op3));
     return ans;
 } // It has a time complexity of O(n^2), more optimal approach below
 pair<int, int> diameterFast(Node *root)
 {
+    // In a pair, the first int represents diameter and the second int represents height
     if (root == NULL)
     {
         pair<int, int> p = make_pair(0, 0);
@@ -53,11 +55,11 @@ pair<int, int> diameterFast(Node *root)
     pair<int, int> right = diameterFast(root->right);
     int op1 = left.first;
     int op2 = right.first;
-    int op3 = left.second + right.second;
+    int op3 = left.second + right.second + 1;
 
     pair<int, int> ans;
-    ans.first = max(op1, max(op2, op3));
-    ans.second = max(left.second, right.second) + 1;
+    ans.first = max(op1, max(op2, op3));             // Diameter
+    ans.second = max(left.second, right.second) + 1; // Height
     return ans;
 }
 int diameterOfBinaryTree(Node *root)
