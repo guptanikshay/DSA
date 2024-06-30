@@ -1,5 +1,7 @@
+// Don't just read the comments, read the entire code, you'll get it then.
 // A Trie is used instead of map because space utilisation is better in Trie as compared to map. For instance, if we wish to create a dictionary consisting of words like ARE, ARM, ARMORY, ARMS, ARENA, etc, a separate block will be created in a map for all these words but in a Trie the story is different, as it will create separate block only when new letters are encountered.
 // Another advantage of Trie is that if we want to search words starting with AR, we will need very less comparisions than required in map.
+// Time Complexity of Searching, Insertion and Deletion is O(l), where 'l' is the length of the word.
 #include <bits/stdc++.h>
 using namespace std;
 
@@ -8,7 +10,7 @@ class TrieNode
 public:
     char data;
     TrieNode *children[26];
-    bool isTerminal;
+    bool isTerminal; // To make sure that if TIME was added to the Trie, we don't get a positive reponse while checking for TIM.
     TrieNode(char c)
     {
         data = c;
@@ -16,7 +18,7 @@ public:
             children[i] = NULL;
         isTerminal = false;
     }
-}; 
+};
 
 class Trie
 {
@@ -78,9 +80,9 @@ public:
 
     // REMOVAL FUNCTION
     /*
-     During delete operation we delete the key in bottom up manner using  recursion. The following are possible conditions when deleting  keyfrom trie,
-     * Key may not be there in trie. Delete operation should not modify  trie.
-     * Key present as unique key (no part of key contains another key  (prefix), nor the key itself is prefix of another key in trie).  Delete all the nodes.
+     During delete operation we delete the key in bottom up manner using recursion. The following are possible conditions when deleting key from trie,
+     * Key may not be there in trie. Delete operation should not modify trie.
+     * Key present as unique key (no part of key contains another key (prefix), nor the key itself is prefix of another key in trie).  Delete all the nodes.
      * Key is prefix key of another long key in trie. Unmark the leaf node.
      * Key present in trie, having atleast one other key as prefix key. Delete nodes from end of key until first leaf node of longest prefix key.
      */
@@ -97,13 +99,15 @@ public:
     TrieNode *remove(TrieNode *root, string key, int depth = 0)
     {
         // If tree is empty
-        if (!root) return NULL;
+        if (!root)
+            return NULL;
 
         // If last character of key is being processed
         if (depth == key.size())
         {
             // This node is no more end of word after removal of given key
-            if (root->isTerminal) root->isTerminal = false;
+            if (root->isTerminal)
+                root->isTerminal = false;
 
             // If given is not prefix of any other word
             if (isEmpty(root))
@@ -126,7 +130,8 @@ public:
         }
         return root;
     }
-    void removeWord(string key){
+    void removeWord(string key)
+    {
         remove(root, key);
     }
 };

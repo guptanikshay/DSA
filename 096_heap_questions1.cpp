@@ -30,7 +30,7 @@ int kthSmallest(int arr[], int l, int r, int k)
 //     nodeCount(root->left, count);
 //     nodeCount(root->right, count);
 // }
-// bool isCBT(struct Node *root, int i, int n)
+// bool isCBT(struct Node *root, int i, int n) // n=>count
 // {
 //     if (!root)
 //         return true;
@@ -38,12 +38,12 @@ int kthSmallest(int arr[], int l, int r, int k)
 //         return false;
 //     return (isCBT(root->left, 2 * i + 1, n) && isCBT(root->right, 2 * i + 2, n));
 // }
-// bool isMaxOrder(struct Node *root)
+// bool isMaxOrder(struct Node *root) // This function checks the maxHeap property, i.e., whether the given tree is a maxHeap or not
 // {
 //     if (!root || (!root->left && !root->right))
 //         return true;
 //     if (!root->right)
-//         return (root->data > root->left->data);
+//         return (root->data > root->left->data); // Here we don't need to check for subtree under this left node as we know that it is a complete binary tree, so if there will be more nodes a right node will exist.
 //     return (root->data > root->left->data && root->data > root->right->data && isMaxOrder(root->right) && isMaxOrder(root->left));
 // }
 // bool isHeap(struct Node *tree)
@@ -57,7 +57,8 @@ int kthSmallest(int arr[], int l, int r, int k)
 // MERGE TWO MAXHEAPS
 // The appraoch is to merge the given arrays to form a single array in any order and then heapify this array and return the final array as answer.
 
-// MINIMUM COST OF ROPES
+// MINIMUM COST OF ROPES: Given an array containing the length of ropes, you are supposed to find the minimum total cost connecting all these ropes. Cost of connecting two ropes is equal to sum of their lengths. The total cost will vary depending on the order of ropes joined together.
+// Approach: We basically need to pick the two smallest elements from the array and join them, so we'll use a minHeap and this question will get solved in a straight forward manner.
 // long long minCost(long long arr[], long long n)
 // {
 //     // Your code here
@@ -81,7 +82,7 @@ int kthSmallest(int arr[], int l, int r, int k)
 // }
 
 // CONVERT A COMPLETE BST TO A MIN HEAP
-// The approach is to find the inorder of the given complete BST (which will be in ascending order) and the populate this BST in terms of preorder.
+// The approach is to find the inorder of the given complete BST (which will be in ascending order) and to populate this BST in terms of preorder.
 // void inorder(BinaryTreeNode *&root, queue<int> &in)
 // {
 //     if (!root)

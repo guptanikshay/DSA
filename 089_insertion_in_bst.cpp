@@ -16,7 +16,8 @@ public:
     }
 };
 
-Node* insertInBST(Node *&root, int data)
+// We recursively find the correct position of the data to be inserted into the tree, i.e., we check the root node and if its NULL, we insert the data right there and if its NON-NULL we check whether the data is smaller than root->data and if it is we call the insert for root->left. If its larger than root->data we call the insert for root->right.
+Node *insertInBST(Node *&root, int data)
 {
     if (root == NULL)
     {
@@ -29,19 +30,19 @@ Node* insertInBST(Node *&root, int data)
     }
     else
     {
-       root->right = insertInBST(root->right, data);
+        root->right = insertInBST(root->right, data);
     }
     return root;
 }
 
-void takeInput(Node * &root)
+void takeInput(Node *&root)
 {
     int data;
     cin >> data;
     while (data != -1)
     {
         root = insertInBST(root, data);
-        cin>>data;
+        cin >> data;
     }
     return;
 }

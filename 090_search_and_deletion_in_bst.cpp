@@ -45,7 +45,8 @@ Node *searchBST(Node *root, int val)
 //     return root;
 // }
 
-// Code for deletion of a node in BST
+// Code for deletion of a node in BST. The below function return the root node of tree after deletion.
+// Deletion in BST has 3 cases depending on the number of children the nodeToDelete has (0, 1 or 2). In case of 0 children, we simply return NULL from that point. In case of 1 child (the child might also be the root node of a sub-tree), we return that child node (whether left or right, doesn't matter), and point the nodeToDelete to NULL. What we did here is that we pointed nodeToDelete's parent's left (or right) to the child of nodeToDelete, and hence omitting nodeToDelete from the tree. In case of 2 children, there are two ways to delete the node, either we can replace it with the maximum value in its left subtree or we can replace it with the minimum value in its right subtree. In the first approach, we change the data of nodeToDelete with the maximum value in its left subtree and call the delete function to delete this maximum value in the left subtree, which is handled recursively. Similarly, in second approach after replace the nodeToDelete's data we call the delete function to delete the maximum value in right subtree.
 int minVal(Node *root)
 {
     Node *temp = root;

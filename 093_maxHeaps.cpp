@@ -1,79 +1,95 @@
 // A Heap is a complete binary tree that comes with a heap order property.
 // A complete binary tree is tree in which all the levels are completely filled except for the last level and nodes are always added from the left.
 // A Max Heap is the one in which children of every node are smaller from the node itself and a Min Heap is the one in which children of every node are greater than the node itself.
-/* A Heap is implement using an array starting from its index 1. Index 0 is not used so that we can use the following logic:
- * The parent of 'i'th node is found at 'i/2'th position. 
- * The left child of 'i'th node is found at '2*i'th position and its right child is found at '2*i+1'th position. 
+/* A Heap is implemented using an array starting from its index 1. Index 0 is not used so that we can use the following logic:
+ * The parent of 'i'th node is found at 'i/2'th position.
+ * The left child of 'i'th node is found at '2*i'th position and its right child is found at '2*i+1'th position.
  */
 #include <bits/stdc++.h>
 using namespace std;
 
-class Heap{
-    public:
+class Heap
+{
+public:
     int arr[100];
     int size;
-    Heap(){
+    Heap()
+    {
         arr[0] = -1;
         size = 0;
     }
-    void insert(int val){
+    void insert(int val)
+    {
         size++;
         int index = size;
         arr[index] = val;
-        while(index>1){
-            int parent = index/2;
-            if(arr[index]>arr[parent]){
+        while (index > 1)
+        {
+            int parent = index / 2;
+            if (arr[index] > arr[parent])
+            {
                 swap(arr[parent], arr[index]);
                 index = parent;
             }
             else
-            return;
+                return;
         }
     }
-    void deleteRoot(){
-        if(size==0)
-        return;
+    void deleteRoot()
+    {
+        if (size == 0)
+            return;
         arr[1] = arr[size];
         size--;
-        int i=1;
-        while(i<=size){
-            int left = 2*i, right = 2*i+1;
-            if(left<=size && arr[i]<arr[left]){
+        int i = 1;
+        while (i <= size)
+        {
+            int left = 2 * i, right = 2 * i + 1;
+            if (left <= size && arr[i] < arr[left])
+            {
                 swap(arr[i], arr[left]);
                 i = left;
             }
-            else if(right<=size && arr[i]<arr[right]){
+            else if (right <= size && arr[i] < arr[right])
+            {
                 swap(arr[i], arr[right]);
                 i = right;
             }
-            else return;
+            else
+                return;
         }
     }
     // The TC of deletion and insertion in a Heap is O(log n)
-    void print(){
-        for(int i=1; i<=size; i++){
-            cout<<this->arr[i]<<" ";
+    void print()
+    {
+        for (int i = 1; i <= size; i++)
+        {
+            cout << this->arr[i] << " ";
         }
-        cout<<"\n";
+        cout << "\n";
     }
 };
 
-void heapify(int arr[], int n, int i){
+// HEAPIFY ALGO: In this algo we convert an array into a heap. As a leaf element is a always a heap, we'll not process them, i.e., we don't need to find their correct position, and hence we will only process the non-leaf nodes. If there are n elements in the array, including the '-1' element at index 0, the elements with index (n/2 -> 1) are leaf elements, therefore we'll only find the correct position of elements (1->n/2)
+void heapify(int arr[], int n, int i)
+{
     // Setting our target index and finding its right and left node. As it should be larger than its children in a MaxHeap and hence the name.
     int largest = i;
-    int left = 2*i, right = 2*i+1;
+    int left = 2 * i, right = 2 * i + 1;
     // Checking if largest is smaller than left or right and updating it.
-    if(left<=n && arr[left]>arr[largest])
+    if (left <= n && arr[left] > arr[largest])
         largest = left;
-    if(right<=n && arr[right]>arr[largest])
+    if (right <= n && arr[right] > arr[largest])
         largest = right;
     // Finally swapping the largest value with given index and calling the function for the tree below it
-    if(largest!=i){
+    if (largest != i)
+    {
         swap(arr[largest], arr[i]);
         heapify(arr, n, largest);
     }
 }
-int main(){
+int main()
+{
     Heap h;
     h.insert(50);
     h.insert(55);
@@ -89,12 +105,11 @@ int main(){
     h.print();
 
     int arrH[] = {-1, 53, 52, 70, 50, 55, 54, 45, 64, 7};
-    int n = 9;
-    // Heapifying the nodes from 1 to n/2 as the rest are leaf nodes and they are assumed to be heaps
-    for(int i=n/2; i>=1; i--)
+    int n = 9; // Heapifying the nodes from 1 to n/2 as the rest are leaf nodes and they are assumed to be heaps
+    for (int i = n / 2; i >= 1; i--)
         heapify(arrH, n, i);
-    for(int i=1; i<=n; i++)
-    cout<<arrH[i]<<" ";
-    cout<<"\n";
+    for (int i = 1; i <= n; i++)
+        cout << arrH[i] << " ";
+    cout << "\n";
     return 0;
 }

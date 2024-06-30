@@ -1,4 +1,4 @@
-// LONGEST COMMON PREFIX
+// LONGEST COMMON PREFIX: Write a function to find the longest common prefix string amongst an array of strings. If there is no common prefix, return an empty string "". For instance, if you have [flowers, flow, flight], the LCP is 'fl'.
 // class TrieNode
 // {
 // public:
@@ -87,7 +87,7 @@
 // 	return ans;
 // }
 
-// IMPLEMENT A PHONE DIRECTORY
+// IMPLEMENT A PHONE DIRECTORY: You will be given a string and you are supposed to print all the strings in the given array that have this string as a prefix. Just like in 'Contacts' app, when we search for 'li', for instance, we will get all the contacts starting with 'li', that's what you need to implement.
 #include <bits/stdc++.h>
 using namespace std;
 class TrieNode

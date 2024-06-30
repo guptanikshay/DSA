@@ -13,7 +13,7 @@ public:
     }
 };
 
-// TWO SUM IN A BST
+// TWO SUM IN A BST: You are given a BST and a target value and you need to check if two such numbers exist in that BST whose sum is equal to the target value.
 void inorderTrav(Node *root, vector<int> &in)
 {
     if (!root)
@@ -69,6 +69,7 @@ bool findTarget(Node *root, int k)
 // }
 
 // CONVERT A NORMAL BST TO A BALANCED BST
+// A BST in which the height of the two subtrees of every node differs no more than one.
 // void inorder(TreeNode *root, vector<int> &in)
 // {
 //     if (!root)
@@ -163,7 +164,7 @@ Node *makeTree(vector<int> &in, int s, int e) // Passing the vector here by refe
     root->right = makeTree(in, m + 1, e);
     return root;
 }
-Node * merge(Node *root1, Node *root2)
+Node *merge(Node *root1, Node *root2)
 {
     // Your code here
     vector<int> in1, in2, ans;
@@ -241,82 +242,56 @@ Node *merge2LL(Node *head1, Node *head2)
     }
 }
 // Converting the created sorted linked list to BST
-int countNodes(Node * head){
+int countNodes(Node *head)
+{
     Node *temp = head;
     int cnt = 0;
-    while(temp){
+    while (temp)
+    {
         cnt++;
         temp = temp->right;
     }
     return cnt;
 }
-Node * sortedLLtoBST(Node * head, int n){ // 2nd parameter is no of nodes
-    if(n<=0|| !head)
-    return NULL;
-    Node * left = sortedLLtoBST(head, n/2);
-    Node * root = head;
+// Understand this function in simple recursive turns, first we define the base condition, then we create the left subtree using first n/2 nodes and we define the next node as root and then we create the right subtree using the remaining n-n/2-1 nodes. This function is returning the root of the formed BST and in the end the head will point to NULL after last node.
+Node *sortedLLtoBST(Node *head, int n)
+{ // 2nd parameter is no of nodes
+    if (n <= 0 || !head)
+        return NULL;
+    Node *left = sortedLLtoBST(head, n / 2);
+    Node *root = head;
     root->left = left;
     head = head->right;
-    root->right = sortedLLtoBST(head, n-n/2-1);
+    root->right = sortedLLtoBST(head, n - n / 2 - 1);
     return root;
 }
 // Final Function
-Node * mergeBST(Node * root1, Node * root2){
+Node *mergeBST(Node *root1, Node *root2)
+{
     // Convert BST into sorted LL inplace
-    Node * head1 = NULL;
+    Node *head1 = NULL;
     convertToDLL(root1, head1);
     head1->left = NULL;
-    Node * head2 = NULL;
+    Node *head2 = NULL;
     convertToDLL(root2, head2);
     head2->left = NULL;
 
     // Merge the two so formed LL
-    Node * head = merge2LL(head1, head2);
+    Node *head = merge2LL(head1, head2);
 
     // Convert sorted LL to BST
     return sortedLLtoBST(head, countNodes(head));
 }
 
 // SIZE OF A LARGEST BST IN A BINARY TREE
-// Approach 1: In this approach we visit every node and check whether the tree below it is a BST or not and end up having a time complexity of O(n^2), which gets optimized in the next approach
-// bool solve(TreeNode *root, int min, int max, int &sum)
-// {
-//     if (!root)
-//         return true;
-//     sum+=root->val;
-//     if (root->val <= min || root->val >= max)
-//         return false;
-//     else
-//         return (solve(root->left, min, root->val, sum) && solve(root->right, root->val, max, sum));
-// }
-// bool isValidBST(TreeNode *root, int &sum)
-// {
-//     int min = 0, max = INT_MAX;
-//     return solve(root, min, max, sum);
-// }
-// void helper(TreeNode *root, int &ans){
-//     if(!root)
-//     return;
-//     int sum=0;
-//     if(isValidBST(root, sum)){
-//         ans = max(ans, sum);
-//         return;
-//     }
-//     helper(root->left, ans);
-//     helper(root->right, ans);
-// }
-// int maxSumBST(TreeNode* root) {
-//     int ans = 0;
-//     helper(root, ans);
-//     return ans;
-// }
+// Approach 1: In this approach we visit every node and check whether the tree below it is a BST or not and if it is BST we store its size and return the maxSize found. Checking BST for a node takes O(n) time and as we'll do this for n nodes, we end up having a time complexity of O(n^2), which gets optimized in the next approach
 // Approach 2: Here we create a class containing some information and we update that info as we visit every node and this way we only traverse the tree once and hence solving the problem with O(n) TC
 // class info{
 //     public:
 //     int maxi;
 //     int mini;
 //     bool isBST;
-//     int size;
+//     int size; // Here size represents the total number of nodes in that tree.
 // };
 
 // info solve(TreeNode <int> *root, int &ans){
@@ -340,12 +315,45 @@ Node * mergeBST(Node * root1, Node * root2){
 
 //     return Curr;
 // }
-// int largestBST(TreeNode<int>* root) 
+// int largestBST(TreeNode<int>* root)
 // {
 //     // Write your code here.
 //     int maxSize=0;
 //     info temp = solve(root, maxSize);
 //     return maxSize;
+// }
+
+// Maximum sum BST in Binary Tree: Given a binary tree root, return the maximum sum of all keys of any sub-tree which is also a Binary Search Tree (BST).
+// bool solve(TreeNode *root, int min, int max, int &sum) // This function checks for BST and calculates the total sum of nodes in the checked tree.
+// {
+//     if (!root)
+//         return true;
+//     sum+=root->val;
+//     if (root->val <= min || root->val >= max)
+//         return false;
+//     else
+//         return (solve(root->left, min, root->val, sum) && solve(root->right, root->val, max, sum));
+// }
+// bool isValidBST(TreeNode *root, int &sum)
+// {
+//     int min = 0, max = INT_MAX;
+//     return solve(root, min, max, sum);
+// }
+// void helper(TreeNode *root, int &ans){ // This function checks for valid BST and stores the maximum sum found in the entire tree.
+//     if(!root)
+//     return;
+//     int sum=0;
+//     if(isValidBST(root, sum)){
+//         ans = max(ans, sum);
+//         return;
+//     }
+//     helper(root->left, ans);
+//     helper(root->right, ans);
+// }
+// int maxSumBST(TreeNode* root) {
+//     int ans = 0;
+//     helper(root, ans);
+//     return ans;
 // }
 int main()
 {

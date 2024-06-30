@@ -30,6 +30,7 @@ bool isValidBST(Node *root)
     return solve(root, min, max);
 }
 // Approach 2: Using inorder traversal, TC: O(n), SC: O(n)
+// In this approach we simply check whether the inorder traversal of the BST is in ascending order or not.
 // void inorder(Node *root, vector<int> &inO)
 // {
 //     if (root == NULL)
@@ -53,7 +54,7 @@ bool isValidBST(Node *root)
 // }
 
 // Kth SMALLEST ELEMENT IN BST
-// Approach 1: Using inorder traversal
+// Approach 1: Using inorder traversal (TC:O(n) & SC:O(n))
 void inorder(Node *root, vector<int> &in)
 {
     if (!root)
@@ -68,7 +69,7 @@ int kthSmallest(Node *root, int k)
     inorder(root, in);
     return in[k - 1];
 }
-// Another recursive approach using a counter
+// Another recursive approach using a counter, in which we visit every node in inorder fashion keep count of the number of nodes we've visited and when the count becomes equal to k, we return the node->data (TC:O(n) & SC:O(n))
 // void solve(TreeNode *root, int &i, int k, int &ans)
 // {
 //     if (!root)
@@ -86,6 +87,7 @@ int kthSmallest(Node *root, int k)
 //     return ans;
 // }
 // Approach 3: Using morrisInorder, that uses constant space
+// TC:O(n) & SC:O(1)
 // void mInorder(TreeNode *root, int &i, int k, int &ans)
 // {
 //     TreeNode *curr = root, *temp;
@@ -127,6 +129,7 @@ int kthSmallest(Node *root, int k)
 // }
 
 // CODE TO FIND THE INORDER PREDECESSOR AND SUCCESSOR OF THE GIVEN KEY IN A BST
+// TC:O(n) SC:O(1)
 // pair<int,int> predecessorSuccessor(BinaryTreeNode<int>* root, int key)
 // {
 //     // Write your code here.
@@ -157,6 +160,7 @@ int kthSmallest(Node *root, int k)
 // }
 
 // CODE TO FIND THE LOWEST COMMON ANCESTOR OF TWO NODES IN A BST
+// TC:O(n) & SC:O(n)
 // TreeNode *lowestCommonAncestor(TreeNode *root, TreeNode *p, TreeNode *q)
 // {
 //     if ((root->val >= p->val && root->val <= q->val) || (root->val <= p->val && root->val >= q->val))

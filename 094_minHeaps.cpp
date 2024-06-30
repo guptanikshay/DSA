@@ -1,17 +1,19 @@
-// A Min Heap is the one in which the children of every node are greater than the node itself. 
+// A Min Heap is the one in which the children of every node are greater than the node itself.
 #include <iostream>
 #include <vector>
 using namespace std;
-void heapify(vector<int> &arr, int i){
-    int smallest= i;
-    int left = 2*i+1, right = 2*i+2;
+void heapify(vector<int> &arr, int i)
+{
+    int smallest = i;
+    int left = 2 * i + 1, right = 2 * i + 2;
     // As the index starts from 0 here, the value of left and right are changed accordingly
-    int n= arr.size();
-    if(left<n && arr[left]<arr[smallest])
-    smallest = left;
-    if(right<n && arr[right]<arr[smallest])
-    smallest = right;
-    if(smallest!=i){
+    int n = arr.size();
+    if (left < n && arr[left] < arr[smallest])
+        smallest = left;
+    if (right < n && arr[right] < arr[smallest])
+        smallest = right;
+    if (smallest != i)
+    {
         swap(arr[smallest], arr[i]);
         heapify(arr, smallest);
     }
@@ -20,16 +22,17 @@ void buildMinHeap(vector<int> &arr)
 {
     // Write your code here
     int n = arr.size();
-    for(int i=n/2-1; i>=0; i--)
-    heapify(arr, i);
+    for (int i = n / 2 - 1; i >= 0; i--)
+        heapify(arr, i);
 }
 
-int main(){
-    vector <int> arr = {2, 4, 5, 3, 6, 7, 1};
+int main()
+{
+    vector<int> arr = {2, 4, 5, 3, 6, 7, 1};
     buildMinHeap(arr);
-    for(auto i: arr)
-    cout<<i<<" ";
-    cout<<"\n";
+    for (auto i : arr)
+        cout << i << " ";
+    cout << "\n";
     return 0;
 }
 // For, heapify algo, TC = O(N) and SC = O(logN)
