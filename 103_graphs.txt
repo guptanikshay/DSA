@@ -1,0 +1,175 @@
+BFS: queue ka use krte hai, queue m source node ko push krte h fir jb tk queue empty nhi ho jata tb tk queue se ek ek krke nodes pop krte h aur iss popped node ke neighbours ko visit krte hai adjacency list ka use krke, agr node already visited nhi hai to isko queue m push kr dete aur iss Tarah apn saari nodes ko visit kr lete h
+
+DFS: Ye ek recursive algo h (unlike BFS, jo iterative h). Apn ek loop run krte h 0 se n (no of nodes) tk, aur agr wo node visited nhi hai to uske liye dfs call kr dete hai, aur har dfs call m iss se connected next node visit kiya jata jb tk iski reach m jitni nodes h sb visited na ho jaye.
+
+DETECT CYCLE IN AN UNDIRECTED GRAPH USING BFS: 
+Apn BFS fashion mein hi graph ko traverse krenge, but visited array ke saath ek parent array bhi maintain krenge. Ab agr bfs krte time koi aisi node milti jo already visited hai aur wo iss ki parent node bhi nhi hai, to mtlb ek cycle exist krta hai.
+
+DETECT CYCLE IN AN UNDIRECTED GRAPH USING BFS:
+Same procedure as BFS, we maintain a parent array and while performing DFS if we encounter any node which is already visited and is not the parent node, we deduce that there is a cycle present.
+
+BIPARTITE GRAPH: If graph can be colored with just two colors such that no two adjacent nodes have the same color, it is called a bipartite graph. Linear graphs without any cycles and graphs with an even cycle length are always bipartite. Graphs with an odd cycle length are always non-bipartite.
+
+BIPARTITE GRAPH USING BFS: 
+We maintain a color array initialized with -1. Now color[i] will either be 0 or 1 depending on the node's color. We color the first node with 0 and start BFS from this node, color all its neighbours with opposite color and push them into queue. In the meantime, if we encounter any neighbour node which is already colored and has the same color as the popped node, then its not a bipartite graph and if we are able to color all the nodes then its a bipartite graph.
+
+BIPARTITE GRAPH USING DFS:
+Similar procedure, we perform DFS and if at any point we encounter any node which is already colored and has the same color as that of the previous node, we return false. If we don't find any such nodes, we return true;
+
+DETECT CYCLE IN A DIRECTED GRAPH USING DFS: 
+Earlier we detected a cycle in an undirected graph by simply checking if a non-parent node is already visited, but this will not work in a directed graph here closed paths will exists but they will not form a cycle, as they lead to the same point. So we will maintain a path visited alongwith the visited array. While performing DFS, we mark the node as visited and pathVisited, and while returning from that DFS call, we mark pathVisited as false for that node. Now if we encounter any node which is already visited and also pathVisited, then we have a cycle, else we continue the DFS until all the nodes are visited.
+
+TOPOLOGICAL SORT: A linear ordering of vertices such that if there is an edge between u & v, then u comes before v in the ordering. It only exists for directed acyclic graphs, as a cycle will contradict itself.
+
+TOPO SORT USING DFS: 
+We perform the normal DFS, and while returning from a DFS call, we push that node into a stack. After all the DFS calls are completed, we pop them from the stack one by one and store them in a vector and we have our ans. This works because we are pushing a node at the point when there are no more nodes present after that node, or already visited nodes are present, so this way we always maintain the topo order.
+
+TOPO SORT USING BFS (KAHN'S ALGO): 
+We maintain an indegree array of nodes (indegree of a node is number of incoming edges on that node). We push all the nodes with 0 indegree into a queue. Now until the queue is empty, we pop the front node from it, insert it in our answer, reduce the indegree of all its neighbour nodes by one (that is, we are removing it from the graph) and if the indegree of any node becomes 0, it is pushed into the queue and we continue in the while loop. 
+
+DETECT CYLCE IN A DIRECTED GRAPH USING BFS (TOPO SORT, KAHN'S ALGO):
+We try to find the topo sort of the graph using Kahn's algo, and if we are able to find a valid (of length equal to number of nodes) topo sort for that graph, we conclude that no cycle is present, and if the length of topo sort is lesser than n, we deduce that a cycle is present. This works because due to the cycle there will be a point when the indegree of all the remaining nodes will be greater than 0, so no one will get pushed into the queue.
+
+SHORTEST PATH IN A DIRECTED ACYCLIC GRAPH (TOPO SORT):
+We find the topo sort for this DAG, and then we make distance array, initialize it with infinity and mark the distance of source node as zero (the first node is topo sort is the source node usually, but the algo will work even if its not the first node). Then we pop a node from the stack and go to its neighbours and check if (dist[source] + edge_weight) < dist[nbr], and if it is we update dist[nbr] and we continue to do this until the stack is empty. At last, the dist array will store the shortest distance from source node to each node.
+We don't use Dijkstra's here as Topo Sort is way more efficient and it will only work for DAGs. Topo sort method has a time complexity of O(N+M) which is less than Dijkstra's.
+
+SHORTEST PATH IN AN UNDIRECTED GRAPHS WITH UNIT WEIGHTS:
+We are supposed to find the shortest distance of a source node from all the other nodes in the graph. We create a distance array, initialize it with infinity, mark the distance of source node as 0 and push it ({node, distance}) into the queue and then we simply perform the BFS on this graph. So we run a while loop until the queue is empty, we pop the front node, visit its neighbours, check if (dist[front]+1) < dist[nbr], and if it is we update dist[nbr] and push it into the queue and continue in the loop. 
+
+SHORTEST PATH IN AN UNDIRECTED GRAPHS WITH RANDOM WEIGHTS (DIJKSTRA'S ALGO):
+Same as the above approach, only difference is that we use min-heap (priority queue) instead of a queue and we push the nodes in the form of {distance, node}. This way, the minimum distance always stays on top and is handled first, so we avoid pushing unnecessary nodes (nodes that lie in longer paths) into the queue.
+
+DIJKSTRA'S ALGO USING SET:
+The only point of using set is to be able to delete the nodes which are already visited and have longer distances. For instance, if we encounter a node where dist[node]=10, but we find a path through which we get dist[node]=8, so we update dist[node] and delete {10, node} from the set, and it saves a number of iterations. Basically, if (dist[top] + edge_wt) < dist[nbr] is true, we check if dist[nbr]!=INT_MAX, and if its true, we delete the previous entry from the set, that is, {dist[nbr], nbr}. It gives a better time complexity in large graphs, in smaller graphs PQ and SET take almost same time.
+
+BELLMAN FORD'S ALGO: 
+Another algo to find the shortest path from a source node to all other nodes. We needed this because Dijkstra's algo doesn't work for graph with negative edges and cycles, and BF algo can handle negative edges and detect negative cycles. Note that BF algo only works for directed graphs, so if you have an undirected graph, convert it to a directed one by adding edges in both directions with same edge weights.
+
+We will need the edges in this format (u, v, wt), where u and v are nodes and wt is the edge weight. Then we relax all the edges in the given sequence N-1 times. Relaxing an edge means updating v's distance if its greater than (dist[u]+wt), i.e.,
+if(dist[u]+wt < dist[v]) dist[v] = dist[u] + wt
+
+We do this N-1 times because in worst case we can have edges in reverse order (the src node will be at last) and it will take N-1 iterations to find the shortest distance for all the nodes.
+
+To check if a negative cycle exists in the graph, we run the iteration Nth time and check if the distance array gets updated and if it does, we conclude that there is a negative cycle. This works because we can certainly find the shortest distance to every node in N-1 iterations and the array will only get updated if there's negative cycle.
+
+
+FLOYD WARSHALL'S ALGO:
+Dijkstra's Bellman Ford algo are single source algorithms, whereas in FW algo we find the shortest distance of all the nodes to every other node. It is a multi-source shortest path algo, which can detect negative cycles as well.
+The algo states that we need to go to every node via every other node. For instance, if there are 5 nodes and in a step we are supposed to find the shortest path from node 0 to node 4, then we need to go from 0 to 4 directly, then via 1, then via 2, and then via 3, and then we store the minimum of all these distances. We use a adjacency matrix instead of adjacency list here, i.e., adj[i][j] will represent the cost of going from i to j. It is a brute force approach where we try all the paths to get the shortest path. 
+
+We basically run 3 for loops, and find the min cost in all the paths. 
+for(via=0 to n){ 
+	for(i=0 to n){
+		for(j=0 to n){
+			cost[i][j] = min(cost[i][j], cost[i][via]+cost[via][j])
+		}
+	}
+}
+
+To detect a negative cycle, we check if the cost[i][i] goes negative at any point and if does then it implies a negative cycle because the cost[i][i] should be 0.
+
+
+MINIMUM SPANNING TREE:
+A tree which has N nodes and N-1 edges and every node is reachable from every other node is a spanning tree. The tree in which the sum of all edge weights is minimum is called a minimum spanning tree.
+
+PRIM'S ALGORITHM TO FIND THE MINIMUM SPANNING TREE: 
+We will need three data structures: a visited array, a min-heap (which will store {edge_wt, node, parent}) and an array MST (to store the edges of our mini. spanning tree in the form of {node, node}). First of all we push the node 0 into the PQ as {0, 0, -1}, and here -1 indicates that it is the source node and 0 edge_wt indicates that it should not be pushed into MST. Then we run a loop until the PQ is not empty, visit the adjacent nodes of the topmost node, if they are not already visited, but we mark it visited only when its popped from the PQ. Now, when we pop a node and it is found not visited, we add the associated edge_wt to our sum and push this {parent, node} pair into MST, then we visit its neighbours and continue in the loop.
+At last, we can draw the MST using this array as we have all the required edges stored in it.
+
+DISJOINT SET DATA STRUCTURE:
+If any graph has disconnected components and we need to check whether a particular node belongs to a particular component, we would have to traverse the entire component and it will take O(E+V) time, but using Disjoint set we can find it out in constant time. A disjoint set particularly has use case in dynamic graphs.
+
+To create a disjoint set we maintain two data structures: rank array and parent array. Initially the rank of all the nodes is set to 0, and each node is parent of itself, and we consider each node as a separate component. Now we start joining these components according to their edges and the component with higher rank (we consider the rank of the ultimate parent of both the nodes, that is the parent who does not have a parent) is placed above the one with lower rank, and if rank of both the components is same we place anyone at the bottom and rank++ the one placed at top. After joining all the components according to the edges, we have the disjoint set. (This joining of components is called union of components)
+
+Path Compression: If we try to check whether any two nodes belong to the same component, we check their ultimate parents and if they both have different parents then they belong to different components. But finding the ultimate parent takes O(log N) time and do it in constant time, we do path compression, i.e., we attach the node directly to its parent. For instance, if we have a set like 1--> 2--> 3--> 4, then we can see that the parent of 4 is 1, so we directly join 4 with 1 (i.e., update the parent of 4 to 1), but we don't decrease the rank in this process because we are not sure if there are any more components of the same length, and that's why we call it rank and not height, because in the end the component might have a height of 2 but rank greater than 2.
+To do path compression, we simply use the below piece of code:
+findPar(node u){
+	if(u==parent[u])
+		return u;
+	else return parent[u] = findPar(parent[u]);
+}
+
+Why do we attach smaller component to larger component?
+To keep the tree smaller in size and to minimize the time taken to find the parents.
+
+Union by size: Here we join components on the basis of their size (number of elements in them), and we add the size of the smaller component to the size of larger component. Just like we maintained a rank array in UnionByRank, here we maintain a size array.
+
+DisjointSet code snippet:-
+class DisjointSet {
+        public:
+        vector<int> rank, parent, size;
+        DisjointSet(int n){
+            rank.resize(n+1, 0);
+	    size.resize(n+1, 1);
+            parent.resize(n+1);
+            for(int i=0; i<=n; i++){
+                parent[i]=i;
+            }
+        }
+        int findPar(int u){
+            if(u==parent[u]) return u;
+            return parent[u] = findPar(parent[u]);
+        }
+        void unionByRank(int u, int v){
+            int uP = findPar(u), vP = findPar(v);
+            if(uP==vP) return;
+            if(rank[uP]>rank[vP]) parent[vP] = uP;
+            else if(rank[uP]<rank[vP]) parent[uP] = vP;
+            else{
+                parent[vP] = uP;
+                rank[uP]++;
+            }
+        }
+	void unionBySize(int u, int v){
+            int uP = findPar(u), vP = findPar(v);
+            if(uP==vP) return;
+            if(size[uP]<size[vP]){
+                parent[uP] = vP;
+                size[vP]+=size[uP];
+            }
+            else{
+                parent[vP] = uP;
+                size[uP] += size[vP];
+            }
+        }
+    };
+
+
+KRUSKAL'S ALGO:
+We sort all the edges in ascending order according to their weights and then we take the first edge and check whether the nodes on this edge belong to the same component and if they don't merge them using union set, and if they do we move to the next edge. This way we are able to construct our minimum spanning tree using Kruskal's algo.
+
+Q. NUMBER OF OPERATIONS TO MAKE NETWORK CONNECTED
+In this question, we will be given a graph with disconnected components, and we are supposed to remove edges from one component and add it between two disconnected components to make them connected. We need to return the minimum number operations required to convert the graph into a single component. If its not possible we return -1.
+
+MY APPROACH: To connect N disconnected components, we need to perform the operation N-1 times, and to perform the operation N-1 times, we need N-1 extraEdges in total. So we simply need to count the extraEdges and number of components (N) and check if (extraEdges >= N-1). To count the extraEdges, my approach was to run a loop and do dfs, but it doesn't work.
+STRIVER APPROACH: We make a disjointSet(N), connect all the components according to given connections and if at any point we encounter an edges between nodes which are part of the same component, we do extraEdges++.
+
+
+STRONGLY CONNECTED COMPONENTS (SCC):
+In a directed graph, a group of nodes where in every pair of vertices, each vertex is reachable to each other is strongly connected component.
+KOSARAJU'S ALGO:-
+Using this algo we can find the number of strongly connected components and also print them. There are three steps in this algo 
+1. First is to find our starting point, that is a node in the first SCC, and to do so we sort all the nodes according to their finishing time and take the node which finished last, that is, we push the node in a stack every time we go back from a dfs call and then take the topmost node from stack as our starting point.
+2. Then we reverse all the edges.
+3. Now we perform dfs from our starting point and count the number of disconnected components, which is our ans.
+
+
+
+
+
+
+
+
+
+
+
+ 
+
+
+
+
+
+
+
+

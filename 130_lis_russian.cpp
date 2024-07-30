@@ -132,7 +132,7 @@ int lengthOfLIS(vector<int> &nums)
 //             ans.push_back(envelopes[i][1]);
 //         else
 //         {
-//             int lb = lower_bound(ans.begin(), ans.end(), envelopes[i][1]) - ans.begin();
+//             int lb = lower_bound(ans.begin(), ans.end(), envelopes[i][1])-ans.begin();
 //             ans[lb] = envelopes[i][1];
 //         }
 //     }

@@ -1,7 +1,7 @@
 #include <bits/stdc++.h>
 using namespace std;
 // If a node, when removed, divides the graph into two or more separate components, is called an Articulation point.
-// PS: FIND ALL THE ARTICULATION POINTS IN A GIVEN GRAPH
+// PS: FIND ALL THE ARTICULATION POINTS IN A GIVEN GRAPH (TARJANS ALGO)
 // Approach:- 1. Create a parent var, time var and 2 arrays namely disc and low to store the discovery time and lowest possilbe time of nodes, and initialize with -1 (Visited map is not required as a node is considered unvisited if disc[node]==-1)    2. Create the adjacencyList   3. Call the dfs function for all the unvisited nodes, in which we traverse all the neighbours of this node and check if low[nbr]>=disc[node] && parent!=-1, if true, the node is added to result and if false, low[node] is upadated     4. At last the condition of parent = -1 is handled, if the node has two or more children, then it is an articulation point.
 // TC=O(N+E)    SC=O(N)
 void dfs(int node, int parent, vector<int> &disc, vector<int> &low, unordered_map<int, list<int>> &adjList, vector<int> &ap, int &time)

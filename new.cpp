@@ -1,14 +1,20 @@
-#include <iostream>
+#include <bits/stdc++.h>
 using namespace std;
 
 int main()
 {
-	int n = 1001;
-	for (int i = 1; i <= 100; i++)
+	string s;
+	cin >> s;
+	int sz = s.length();
+	int ans = 0;
+	for (int i = 0; i < sz / 2; i++)
 	{
-		cout << n * i << " ";
-		if (i % 10 == 0)
-			cout << "\n";
+		string p = s.substr(0, i), q = s.substr(i, i + sz / 2), r = s.substr(i + sz / 2, sz);
+		cout << p << " " << q << " " << r << "\n";
+		string pr = p.append(r);
+		if (q.compare(pr) == 0)
+			ans++;
 	}
+	cout << ans << "\n";
 	return 0;
 }

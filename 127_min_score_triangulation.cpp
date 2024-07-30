@@ -3,7 +3,7 @@ using namespace std;
 
 // PS: You have a convex n-sided polygon where each vertex has an integer value. You are given an integer array values where values[i] is the value of the ith vertex (i.e., clockwise order). You will triangulate the polygon into n - 2 triangles.For each triangle, the value of that triangle is the product of the values of its vertices, and the total score of the triangulation is the sum of these values over all n - 2 triangles in the triangulation. Return the smallest possible total score that you can achieve with some triangulation of the polygon.
 
-// Approach: Consider the edges joining the first and the last vertex in array as the base edge and make triangle using the remaining vertices, which will result in n-2 triangles in every triangulation.
+// Approach: Consider the edge joining the first and the last vertex in the array as base edge and make triangle using the remaining vertices, which will result in n-2 triangles in every triangulation.
 
 // RECURSION
 int solve(int i, int j, vector<int> &v)

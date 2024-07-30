@@ -2,7 +2,7 @@
 using namespace std;
 
 // DAG stands for Directed Acyclic Graph
-// Topological Sorting of DAG is a linear ordering of vertices such that for every directed edge from vertex 'u' to vertex 'v', u comes before v in the ordering. Topological Sorting for a Graph is not possible if the graph is not a DAG, because the cylcic order will contradict itself (for instance, if u and v are part of a cycle the u should come before v and v should come before u, which is not possilbe). TC=O(N+E), SC=O(N)
+// Topological Sorting of DAG is a linear ordering of vertices such that for every directed edge from vertex 'u' to vertex 'v', u comes before v in the ordering. Topological Sorting for a Graph is not possible if the graph is not a DAG, because the cylcic order will contradict itself (for instance, if u and v are part of a cycle then u should come before v and v should come before u, which is not possilbe). TC=O(N+E), SC=O(N)
 
 // TOPOLOGICAL SORT USING DFS
 // Approach: We traverse the graph using dfs and while backtracking the recursive call, we put that particular node into a stack. After the dfs function executes entirely, we pop nodes from the stack and push them into our ans vector.
@@ -22,7 +22,7 @@ vector<int> topologicalSort(vector<pair<int, int>> &edges, int N, int M)
        Write your code here
        Return any valid topolocial Sort
        Verdict: 'Valid' or 'Invalid'
-    */
+     */
     unordered_map<int, list<int>> adjList;
     for (int i = 0; i < M; i++)
         adjList[edges[i].first].push_back(edges[i].second);

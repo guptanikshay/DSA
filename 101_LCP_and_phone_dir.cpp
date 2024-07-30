@@ -159,9 +159,9 @@ public:
         string prefix = "";
         for (int i = 0; i < str.length(); i++)
         {
-            char lastch = str[i];
-            prefix.push_back(lastch);
-            TrieNode *curr = prev->children[lastch - 'a'];
+            char lastChar = str[i];
+            prefix.push_back(lastChar);
+            TrieNode *curr = prev->children[lastChar - 'a'];
             if (!curr)
                 break;
             vector<string> temp;

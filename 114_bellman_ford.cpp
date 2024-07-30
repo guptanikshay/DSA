@@ -2,7 +2,7 @@
 using namespace std;
 
 // BELLMAN FORD ALGORITHM: This algo is used to find the shortest path between a source node and destination node and the graph may contain negatively weighted edges. We are studying this algo because Dijkstra's algo doesn't work on -ve edges.
-// NOTE: For Bellman Ford algo to work, no negative cycle should be present in the graph. A negative cylce whose sum of all edges is negative. But BF algo can be used to check the presence of a negative cycle in a graph.
+// NOTE: For Bellman Ford algo to work, no negative cycle should be present in the graph. A negative cylce is the one in which the sum of all edges is negative. But BF algo can be used to check the presence of a negative cycle in a graph.
 // To apply BF algo to an undirected graph, convert it into a directed graph first (the graph will contain edges in both directions {0 -> <- 1})
 // TC=O(N*E)  SC=O(N)
 
@@ -42,3 +42,7 @@ int main()
 
     return 0;
 }
+
+// If graph can be colored with just two colors such that no two adjacent nodes have the same color, it is called a bipartite graph.
+//  Linear graphs without any cycles and graphs with an even cycle length are always bipartite.
+// Graphs with an odd cycle length are always bipartite.
