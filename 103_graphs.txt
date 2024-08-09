@@ -17,7 +17,7 @@ BIPARTITE GRAPH USING DFS:
 Similar procedure, we perform DFS and if at any point we encounter any node which is already colored and has the same color as that of the previous node, we return false. If we don't find any such nodes, we return true;
 
 DETECT CYCLE IN A DIRECTED GRAPH USING DFS: 
-Earlier we detected a cycle in an undirected graph by simply checking if a non-parent node is already visited, but this will not work in a directed graph here closed paths will exists but they will not form a cycle, as they lead to the same point. So we will maintain a path visited alongwith the visited array. While performing DFS, we mark the node as visited and pathVisited, and while returning from that DFS call, we mark pathVisited as false for that node. Now if we encounter any node which is already visited and also pathVisited, then we have a cycle, else we continue the DFS until all the nodes are visited.
+Earlier we detected a cycle in an undirected graph by simply checking if a non-parent node is already visited, but this will not work in a directed graph here closed paths will exist but they will not form a cycle, as they lead to the same point. So we will maintain a path visited alongwith the visited array. While performing DFS, we mark the node as visited and pathVisited, and while returning from that DFS call, we mark pathVisited as false for that node. Now if we encounter any node which is already visited and also pathVisited, then we have a cycle, else we continue the DFS until all the nodes are visited.
 
 TOPOLOGICAL SORT: A linear ordering of vertices such that if there is an edge between u & v, then u comes before v in the ordering. It only exists for directed acyclic graphs, as a cycle will contradict itself.
 
@@ -153,23 +153,3 @@ Using this algo we can find the number of strongly connected components and also
 1. First is to find our starting point, that is a node in the first SCC, and to do so we sort all the nodes according to their finishing time and take the node which finished last, that is, we push the node in a stack every time we go back from a dfs call and then take the topmost node from stack as our starting point.
 2. Then we reverse all the edges.
 3. Now we perform dfs from our starting point and count the number of disconnected components, which is our ans.
-
-
-
-
-
-
-
-
-
-
-
- 
-
-
-
-
-
-
-
-

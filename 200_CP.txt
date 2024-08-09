@@ -1,0 +1,230 @@
+########## CP TEMPLATE ##########
+#include <iostream>
+using namespace std;
+#define int long long
+#define M 1000000007
+
+signed main()
+{
+    ios_base::sync_with_stdio(false);
+    cin.tie(NULL);
+
+    return 0;
+}
+
+########## FAST EXPONENTIATION ##########
+int fastExpo(int base, int power)
+{
+    int ans = 1;
+    while (power > 0)
+    {
+        if (power & 1)
+            ans = (1LL * ans * (base % M)) % M;
+        base = (1LL * (base % M) * (base % M)) % M;
+        power = power >> 1;
+    }
+    return ans % M;
+}
+int Expo(int x, int n)
+{
+    int res = 1;
+    while (n > 0)
+    {
+        if (n & 1)
+        { // odd
+            res = 1LL * (res) * (x);
+        }
+        x = (1LL * (x) * (x));
+        n = n >> 1;
+    }
+    return res;
+}
+
+########## FAST INPUT/OUTPUT ###########
+ios_base::syn_with_stdio(false); // It toggles on or off the synchronization of all the C++ standard streams with their corresponding standard C streams
+cin.tie(NULL); // tie() is a method that simply guarantees the flushing of std::cout before std::cin accepts an input. This is useful for interactive console programs which require the console to be updated constantly but also slows down the program for large I/O. The NULL part just returns a NULL pointer.
+
+########## CONGRUENT NUMBERS ##########
+Two numbers are congruent (in modulo M) if they return the same remainder when divided by M. For instance, 10 ≡ 3 (mod 7), as 10 and 3 both return the remainder 3 when divided by 7.
+
+########## MODULAR INVERSE ##########
+Modular inverse is used for division in modular arithmetics, as we can't perform direct division there because it might lead to non-integer results. As we are interested in the value after modulo operation and not in the actual division output, so we first multiply the dividend by the divisor's modular inverse and then take the mod to get our final answer.
+Modular inverse can be calculated using Fermat's Little theorem, which states that if M is a prime nubmer, then for any integer 'a', not divisible by M, we have
+a^(M-1) ≡ 1 (mod M), which implies to
+a^(M-2) ≡ a^-1 (mod M)
+Hence, (a^(M-2) mod M) is the modular inverse of a in modulo M.
+Now, this inv (modular inverse) can be used in division as shown below
+We need to calculate (10/2)%7, so first we multiply 10 by modular inverse of 2, that is 2^(7-2)%7, which is 4, and then we take the mod that value
+(10/2)%7 => (10*4)%7 = 5
+This way modular inverse helps us to calculate the output without performing division.
+
+########## KNUTH MORRIS PRATT (KMP) PATTERN MATCHING (SUBSTRING SEARCH) ##########
+We need to check if the given pattern ('bcgl') of length N is present in the given text ('abcbcglx') of length M.
+BRUTE FORCE: We track two pointers 'i' (for text) and 'j' (for pattern). We check if text[i]==pattern[i], and if it isn't, we move forward. If it is, we mark this i as start and check if text[i+1]==pattern[j+1], and continue moving like this until text[i]!=pattern[j] or j reaches end. If we found that text[i]!=pattern[j], we make i=start+1 and j=0 and continue in the loop, and if j reaches the end, we return true.
+The TC of this approach is O(M*N).
+***** JAVA CODES BELOW! *****
+bool hasSubstring(char[] text, char[] pattern){
+    int i=0;
+    int j=0;
+    int k = 0; // initial start point
+    while(i < text.length && j < pattern.length){
+        if(text[i] == pattern[j]){
+            i++;
+            j++;
+        }else{
+            j=0;
+            k++; // move start point ahead by one
+            i = k; // update i to the next start point
+        }
+    }
+    if(j == pattern.length){
+        return true;
+    }
+    return false;
+}
+KMP SEARCH: In the above approach, when the pattern and text mismatch after matching a few characters, we went all the way back to start+1 and checked again, but here we avoid this by matching prefix and suffix in the pattern till the matched characters, and start checking from the next index of prefix. For instance the pattern is 'abcdabcy' and it mismatched on 'y', so we start checking again from 'd', because we already checked for 'abc'.
+To execute this, we need a temporary array which can be built as shown in the code below. We basically maintain two pointers 'j' (from 0) and 'i' (from 1). temp[0] = 0 (always). Then we check pat[j]==pat[i], and if it is we do temp[i]==index+1 and index++, else we move index to lps[index-1] (if index!=0) or make lps[i]=0 and do i++.
+int[] computeTemporaryArray(char pattern[]){
+    int [] lps = new int[pattern.length];
+    int index = 0; // Here 
+    // The first value of the temporary array will be zero.
+    for(int i=1; i < pattern.length;){
+        if(pattern[i] == pattern[index]){
+            lps[i] = index + 1;
+            index++;
+            i++;
+        } else{
+            if(index != 0){
+                index = lps[index-1];
+            }else{
+                lps[i] =0;
+                i++;
+            }
+        }
+    }
+    return lps;
+}
+Then KMP search is executed as shown
+bool KMP(char []text, char []pattern){      
+    int lps[] = computeTemporaryArray(pattern);
+    int i=0;
+    int j=0;
+    while(i < text.length && j < pattern.length){
+        if(text[i] == pattern[j]){
+            i++;
+            j++;
+        }else{
+            if(j!=0){
+                j = lps[j-1];
+            }else{
+                i++;
+            }
+        }
+    }
+    if(j == pattern.length){
+        return true;
+    }
+    return false;
+}
+
+########## Z ALGORITHM ##########
+* Z FUNCTION CALCULATION (Watch Tushar Roy's Z Function video if you don't understand)
+private int[] calculateZ(char input[]) {
+    int Z[] = new int[input.length];
+    int left = 0;
+    int right = 0;
+    for(int k = 1; k < input.length; k++) {
+        if(k > right) {
+            left = right = k;
+            while(right < input.length && input[right] == input[right - left]) {
+                right++;
+            }
+            Z[k] = right - left;
+            right--;
+        } else {
+            //we are operating inside box
+            int k1 = k - left;
+            //if value does not stretches till right bound then just copy it.
+            if(Z[k1] < right - k + 1) {
+                Z[k] = Z[k1];
+            } else { //otherwise try to see if there are more matches.
+                left = k;
+                while(right < input.length && input[right] == input[right - left]){
+                    right++;
+                }
+                Z[k] = right - left;
+                right--;
+            }
+        }
+    }
+    return Z;
+}
+* Pattern matching
+public List<Integer> matchPattern(char text[], char pattern[]) {
+    char newString[] = new char[text.length + pattern.length + 1];
+    int i = 0;
+    for(char ch : pattern) {
+        newString[i] = ch;
+        i++;
+    }
+    newString[i] = '$';
+    i++;
+    for(char ch : text) {
+        newString[i] = ch;
+        i++;
+    }
+    List<Integer> result = new ArrayList<>();
+    int Z[] = calculateZ(newString);
+    for(i = 0; i < Z.length ; i++) {
+        if(Z[i] == pattern.length) {
+            result.add(i - pattern.length - 1);
+        }
+    }
+    return result;
+}
+
+########## RABIN KARP ALGORITHM ##########
+private int prime = 101;
+public int patternSearch(char[] text, char[] pattern){
+    int m = pattern.length;
+    int n = text.length;
+    long patternHash = createHash(pattern, m - 1);
+    long textHash = createHash(text, m - 1);
+    for (int i = 1; i <= n - m + 1; i++) {
+        if(patternHash == textHash && checkEqual(text, i - 1, i + m - 2, pattern, 0, m -1)) {
+            return i - 1;
+        }
+        if(i < n - m + 1) {
+            textHash = recalculateHash(text, i - 1, i + m - 1, textHash, m);
+        }
+    }
+    return -1;
+}
+
+private long recalculateHash(char[] str,int oldIndex, int newIndex,long oldHash, intpatternLen) {
+    long newHash = oldHash - str[oldIndex];
+    newHash = newHash/prime;
+    newHash += str[newIndex]*Math.pow(prime, patternLen - 1);
+    return newHash;
+}
+
+private long createHash(char[] str, int end){
+    long hash = 0;
+    for (int i = 0 ; i <= end; i++) {
+        hash += str[i]*Math.pow(prime,i);
+    }
+    return hash;
+}
+private boolean checkEqual(char str1[],int start1,int end1, char str2[],int start2,intend2){
+    if(end1 - start1 != end2 - start2) {
+        return false;
+    }
+    while(start1 <= end1 && start2 <= end2){
+        if(str1[start1] != str2[start2]){
+            return false;
+        }
+        start1++;
+        start2++;
+    }
+    return true;
+}
