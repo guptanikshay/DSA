@@ -31,11 +31,11 @@ DETECT CYLCE IN A DIRECTED GRAPH USING BFS (TOPO SORT, KAHN'S ALGO):
 We try to find the topo sort of the graph using Kahn's algo, and if we are able to find a valid (of length equal to number of nodes) topo sort for that graph, we conclude that no cycle is present, and if the length of topo sort is lesser than n, we deduce that a cycle is present. This works because due to the cycle there will be a point when the indegree of all the remaining nodes will be greater than 0, so no one will get pushed into the queue.
 
 SHORTEST PATH IN A DIRECTED ACYCLIC GRAPH (TOPO SORT):
-We find the topo sort for this DAG, and then we make distance array, initialize it with infinity and mark the distance of source node as zero (the first node is topo sort is the source node usually, but the algo will work even if its not the first node). Then we pop a node from the stack and go to its neighbours and check if (dist[source] + edge_weight) < dist[nbr], and if it is we update dist[nbr] and we continue to do this until the stack is empty. At last, the dist array will store the shortest distance from source node to each node.
+We find the topo sort for this DAG, and then we make distance array, initialize it with infinity and mark the distance of source node as zero (the first node in topo sort is the source node usually, but the algo will work even if its not the first node). Then we pop a node from the stack and go to its neighbours and check if (dist[source] + edge_weight) < dist[nbr], and if it is we update dist[nbr] and we continue to do this until the stack is empty. At last, the dist array will store the shortest distance from source node to each node.
 We don't use Dijkstra's here as Topo Sort is way more efficient and it will only work for DAGs. Topo sort method has a time complexity of O(N+M) which is less than Dijkstra's.
 
 SHORTEST PATH IN AN UNDIRECTED GRAPHS WITH UNIT WEIGHTS:
-We are supposed to find the shortest distance of a source node from all the other nodes in the graph. We create a distance array, initialize it with infinity, mark the distance of source node as 0 and push it ({node, distance}) into the queue and then we simply perform the BFS on this graph. So we run a while loop until the queue is empty, we pop the front node, visit its neighbours, check if (dist[front]+1) < dist[nbr], and if it is we update dist[nbr] and push it into the queue and continue in the loop. 
+We are supposed to find the shortest distance of a source node from all the other nodes in the graph. We create a distance array, initialize it with infinity, mark the distance of source node as 0 and push it ({node, distance}) into the queue and then we simply perform the BFS on this graph. So we run a while loop until the queue is empty, we pop the front node, visit its neighbours, check if (dist[front]+1) < dist[nbr], and if it is we update dist[nbr] and push it into the queue and continue in the loop.  
 
 SHORTEST PATH IN AN UNDIRECTED GRAPHS WITH RANDOM WEIGHTS (DIJKSTRA'S ALGO):
 Same as the above approach, only difference is that we use min-heap (priority queue) instead of a queue and we push the nodes in the form of {distance, node}. This way, the minimum distance always stays on top and is handled first, so we avoid pushing unnecessary nodes (nodes that lie in longer paths) into the queue.
@@ -55,7 +55,7 @@ To check if a negative cycle exists in the graph, we run the iteration Nth time 
 
 
 FLOYD WARSHALL'S ALGO:
-Dijkstra's Bellman Ford algo are single source algorithms, whereas in FW algo we find the shortest distance of all the nodes to every other node. It is a multi-source shortest path algo, which can detect negative cycles as well.
+Dijkstra's & Bellman Ford algo are single source algorithms, whereas in FW algo we find the shortest distance of all the nodes to every other node. It is a multi-source shortest path algo, which can detect negative cycles as well.
 The algo states that we need to go to every node via every other node. For instance, if there are 5 nodes and in a step we are supposed to find the shortest path from node 0 to node 4, then we need to go from 0 to 4 directly, then via 1, then via 2, and then via 3, and then we store the minimum of all these distances. We use a adjacency matrix instead of adjacency list here, i.e., adj[i][j] will represent the cost of going from i to j. It is a brute force approach where we try all the paths to get the shortest path. 
 
 We basically run 3 for loops, and find the min cost in all the paths. 
@@ -74,7 +74,8 @@ MINIMUM SPANNING TREE:
 A tree which has N nodes and N-1 edges and every node is reachable from every other node is a spanning tree. The tree in which the sum of all edge weights is minimum is called a minimum spanning tree.
 
 PRIM'S ALGORITHM TO FIND THE MINIMUM SPANNING TREE: 
-We will need three data structures: a visited array, a min-heap (which will store {edge_wt, node, parent}) and an array MST (to store the edges of our mini. spanning tree in the form of {node, node}). First of all we push the node 0 into the PQ as {0, 0, -1}, and here -1 indicates that it is the source node and 0 edge_wt indicates that it should not be pushed into MST. Then we run a loop until the PQ is not empty, visit the adjacent nodes of the topmost node, if they are not already visited, but we mark it visited only when its popped from the PQ. Now, when we pop a node and it is found not visited, we add the associated edge_wt to our sum and push this {parent, node} pair into MST, then we visit its neighbours and continue in the loop.
+Using this algo we can find the sum of edge weights of MST and also the MST.
+We will need three data structures: a visited array, a min-heap (which will store {edge_wt, node, parent}) and an array MST (to store the edges of our MST in the form of {node, node}). First of all we push the node 0 into the PQ as {0, 0, -1}, and here -1 indicates that it is the source node and 0 edge_wt indicates that it should not be pushed into MST. Then we run a loop until the PQ is not empty, visit the adjacent nodes of the topmost node, if they are not already visited we push it into PQ, but we mark it visited only when its popped from the PQ. Now, when we pop a node and it is found not visited, we add the associated edge_wt to our sum and push this {parent, node} pair into MST, then we visit its neighbours and continue in the loop.
 At last, we can draw the MST using this array as we have all the required edges stored in it.
 
 DISJOINT SET DATA STRUCTURE:
@@ -136,7 +137,7 @@ class DisjointSet {
     };
 
 
-KRUSKAL'S ALGO:
+KRUSKAL'S ALGO TO FIND MST:
 We sort all the edges in ascending order according to their weights and then we take the first edge and check whether the nodes on this edge belong to the same component and if they don't merge them using union set, and if they do we move to the next edge. This way we are able to construct our minimum spanning tree using Kruskal's algo.
 
 Q. NUMBER OF OPERATIONS TO MAKE NETWORK CONNECTED
@@ -153,3 +154,97 @@ Using this algo we can find the number of strongly connected components and also
 1. First is to find our starting point, that is a node in the first SCC, and to do so we sort all the nodes according to their finishing time and take the node which finished last, that is, we push the node in a stack every time we go back from a dfs call and then take the topmost node from stack as our starting point.
 2. Then we reverse all the edges.
 3. Now we perform dfs from our starting point and count the number of disconnected components, which is our ans.
+
+
+BRIDGES IN A GRAPH:
+An edge in a graph is called a bridge if on its removal the graph is broken down into two or more components.
+
+TARJAN'S ALGO TO FIND BRIDGES IN A GRAPH:
+We maintain two arrays of size N (no. of nodes): disc[], which stores the dfs insertion time and low[], which stores the minimum lowest insertion time of all adjacent nodes except for the parent. We start our dfs from the first node, and initially disc[node] and low[node] are same, which is equal to time (a counter variable), and after returning from a dfs call we update the low[node] with the minimum of its own low[] and nbr's low[], and then we check if low[nbr]>disc[i], and if it is, then this particular edge is a bridge and we push into our ans. If at any point we encounter a nbr which is already visited and not the parent node, we simply and update the low[node]. 
+
+    void dfs(int i, int parent, int &time, vector<int> &disc, vector<int> &low, vector<vector<int>> &ans,        
+    unordered_map<int, list<int>> &adjList){
+        disc[i] = low[i] = time++;
+        for(auto nbr: adjList[i]){
+            if(nbr == parent) continue;
+            if(disc[nbr]==-1){
+                dfs(nbr, i, time, disc, low, ans, adjList);
+                low[i] = min(low[i], low[nbr]);
+                if(low[nbr]>disc[i]){
+                    vector<int> res;
+                    res.push_back(i);
+                    res.push_back(nbr);
+                    ans.push_back(res);
+                }
+            }
+            else low[i] = min(low[i], disc[nbr]);
+        }
+    }
+    vector<vector<int>> criticalConnections(int n, vector<vector<int>>& connections) {
+        unordered_map<int, list<int>> adjList;
+        for(int i=0; i<connections.size(); i++){
+            adjList[connections[i][0]].push_back(connections[i][1]);
+            adjList[connections[i][1]].push_back(connections[i][0]);
+        }
+        vector<int> disc(n, -1), low(n, -1);
+        int parent = -1, time = 0;
+        vector<vector<int>> ans;
+        for(int i=0; i<n; i++){
+            if(disc[i]==-1) dfs(i, parent, time, disc, low, ans, adjList);
+        }
+        return ans;
+    } 
+
+
+ARTICULATION POINTS IN A GRAPH:
+A node is called an articulation point if on its removal, the graph is divided into two or more components.
+Articulation points can found using a similar approach as in Tarjan's algo, with a few adjustments, which are
+1. In Tarjan's algo, low[] was storing the minimum lowest insertion time of all the adjacent nodes, except for the parent node. Here in calculation of low[], we also exclude the visited nodes, i.e., if the low[nbr] is less and the node is already visted, we take disc[nbr] and not low[nbr] {else condition in for loop of dfs}
+2. In above algo, the condition for bridge was (low[nbr]>disc[node]), but here we will check if(low[nbr]>=disc[node]), because the goal is to reach before that node after its removal, and not at that node.
+3. We cannot handle the root node with this logic because if the root node has only one child, it will be articulation point with this logic, but on removing the root the graph won't break into two or more components. So we keep a count of no. of children of root and if its >1, we conclude that it is an articulation point.
+
+void dfs(int node, int parent, vector<int>& disc, vector<int>& low, vector<int>& mark, vector<int> adj[], int& timer){
+        disc[node] = low[node] = timer++;
+        int child = 0;
+        for(auto nbr : adj[node]){
+            if(nbr == parent) continue;  // Ignore the parent node
+            if(disc[nbr] == -1){  // If the neighbor is not visited
+                child++;
+                dfs(nbr, node, disc, low, mark, adj, timer);
+                low[node] = min(low[node], low[nbr]);
+                if(low[nbr] >= disc[node] && parent != -1){
+                    mark[node] = 1;
+                }
+            } else {
+                low[node] = min(low[node], disc[nbr]);
+            }
+        }
+        if(child > 1 && parent == -1) mark[node] = 1;
+    }
+    
+    vector<int> articulationPoints(int V, vector<int> adj[]) {
+        vector<int> ans;
+        vector<int> mark(V, 0), disc(V, -1), low(V, -1);
+        int timer = 0;
+        for(int i = 0; i < V; i++){
+            if(disc[i] == -1){
+                dfs(i, -1, disc, low, mark, adj, timer);
+            }
+        }
+        for(int i = 0; i < V; i++) {
+            if(mark[i] == 1) ans.push_back(i);
+        }
+        if(ans.size()==0) return {-1};
+        return ans;
+    }
+
+
+
+
+
+
+
+
+
+
+
