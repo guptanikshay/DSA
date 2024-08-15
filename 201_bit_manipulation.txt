@@ -1,0 +1,162 @@
+# SWAP TWO NUMBERS WITHOUT TEMP VARIABLE
+* It can be done using the XOR operator as shown below
+
+void swap(int a, int b){
+    a = a^b; 
+    b = a^b; // b = (a^b)^b = a
+    a = a^b; // a = (a^b)^a = b
+}
+
+# CHECK IF THE i'TH BIT IS SET OR NOT IN A GIVEN INTEGER
+* The brute force would be to convert into binary and check the i'th bit there.
+* Optimal appraoch is to use Right Shift and Left Shift operators
+*************** Using Left Shif **************
+We take 1 and left shift it 'i' times to get a number in which only the i'th bit is set and rest are unset, then we AND this number with the given number and if we get '1', then the i'th bit is set, else its unset.
+
+bool check(int n, int i){
+    if(n&(1<<i)) return true;
+    return false;
+}
+*************** Using Right Shif **************
+We take n and right shift it 'i' times to get the i'th bit at last position and then we AND it by '1', and if we get 1, it is set else its not.
+
+bool check(int n, int i){
+    if((n>>i)&1) return true;
+    return false;
+}
+
+# SET THE i'TH BIT IN A GIVEN INTEGER
+* We take 1 and left shift it 'i' times to get a number in which only i'th bit is set and rest all are zero, then we take OR of this number with the given number to set the i'th bit.
+
+int set(int n, int i){
+    n = n|(1<<i);
+    return n;
+}
+
+# CLEAR THE i'TH BIT IN A GIVEN INTEGER
+* We take 1, left shift it 'i' times, then we negate it and we have a number in which only the i'th bit is unset and rest all bits are set. Now we take AND of this number with our given number,
+
+int clear(int n, int i){
+    n = n&(~(1<<i));
+    return n;
+}
+
+# TOGGLE THE i'TH BIT IN A GIVEN INTEGER
+* We take 1, left shift it 'i' times, then we take the XOR of this number with the given number. If the i'th bit in given number is 0, our result will be 1, and if it is 1, then our result will be 0, and hence its getting toggled in both the cases.
+
+int toggle(int n, int i){
+    n = n^(1<<i);
+    return n;
+}
+
+# CLEAR THE RIGHTMOST SET BIT IN A GIVEN NUMBER
+* We simply take AND of N and N-1, to see why it works, just dry run a few examples and you'll know it instantly. It works because when we subtract 1 from a number, the rightmost set bit becomes 0 and all the bits following it become 1, and when we take AND with N, all of them become 0.
+
+int clearRightmost(int n){
+    return n&(n-1);
+}
+
+# CHECK IF THE NUMBER IS A POWER OF 2
+* As in the above example, when we do N-1, all the bits after the rightmost set bit become 1 and it becomes 0. So we check if(N&(N-1)==0) and if it is we return true.
+
+bool checkPowerOf2(int n){
+    if(n&(n-1)==0) return true;
+    return false;
+}
+
+# COUNT THE NUMBER OF SET BITS
+* Brute force is the only solution for this problem, no one liners. We convert the given number into binary and count the number of 1s.
+
+int countSet(int n){
+    int cnt = 0;
+    while(n>0){
+        cnt+=n&1;
+        n>>=1;
+    }
+    return cnt;
+}
+
+* There is a slightly better way of doing this, when we take AND of N and N-1, the rightmost set bit in N becomes 0, so we continue taking AND of N and N-1 until N becomes zero and count the number of operations we've performed. Here the max time complexity will O(31), which is constant time.
+
+int countSet(int n){
+    int cnt = 0;
+    while(n!=0){
+        n&=(n-1);
+        cnt++;
+    }
+    return cnt;
+}
+
+# MINIMUM BIT FLIPS TO CONVERT NUMBER
+* You will be given two numbers, start and goal and you need to calculate the minimum number of bits you need to flip to convert start to goal.
+* As XOR gives 1 with different bits, so we take XOR of start and goal and then we count the number of set bits in our result, which will be our ans.
+
+int miniBitFlips(int start, int goal){
+    int n = start^goal, cnt=0;
+    while(n!=0){
+        n&=(n-1);
+        cnt++;
+    }
+    return cnt;
+}
+
+# POWER SET USING BIT MANIPULATION
+* We learn to create the power set using bit manipulation. The power set of {1, 2} will be {{}, {1}, {2}, {1, 2}}, i.e., a set with N elements will have a power set with 2^N elements. We run a loop from 0 to (2^N)-1 and check if the i'th bit is set (where i goes from 0 to N-1) and if it is, we include arr[i] in our list, and on completion we add this list to our power set.
+
+vector<vector<int>> powerSet(vector<int> num){
+    int n = num.size(), subsets = 1<<n;
+    vector<vector<int>> ans;
+    for(int i=0; i<subsets; i++){
+        vector<int> list;
+        for(int j=0; j<n; j++){
+            if(n&(1<<j)) list.push_back(num[j]);
+        }
+        ans.push_back(list);
+    }
+    return ans;
+}
+
+# PROBLEM: SINGLE NUMBER 1
+* Given a non-empty array of integers nums, every element appears twice except for one. Find that single one.
+* APPROACH: We simply take XOR of all the elements, the ones who appear in pairs end up becoming 0 and we are only left with that single guy.
+
+# PROBLEM: SINGLE NUMBER 2  
+Given an integer array nums where every element appears three times except for one, which appears exactly once. Find the single element and return it.
+
+APPROACH 1: We count the number of 1's at every bitIndex in the nums array, and if that count is not divisible by 3, then this bitIndex will stay set in our ans, and if its divisible by 3 and then this bitIndex is unset in our ans.
+    int singleNumber(vector<int>& nums) {
+        int ans = 0, n = nums.size();
+        for(int bit=0; bit<32; bit++){
+            int cnt = 0;
+            for(int i=0; i<n; i++){
+                if(nums[i]&(1<<bit)) cnt++;
+            }
+            if(cnt%3) ans|=(1<<bit);
+        }
+        return ans;
+    }
+TC: O(32*N), SC: O(1)
+
+APPROACH 2: Firstly we sort the entire array, then we start iterating from index '1' (not 0), and check if(nums[i]==nums[i-1]), that is, we are checking if that element is present in groups of 3, and if its true, we jump 3 indices and check again. If at any instant the check fails, we get our ans, which is, nums[i-1], but if we traverse the entire array and the check never fails, then the unique element is present at the last index, and we bypassed it which jumping 3 indices, so we return the last element.
+    int singleNumber(vector<int>& nums) {
+        sort(nums.begin(), nums.end());
+        int n = nums.size();
+        for(int i=1; i<n; i+=3){
+            if(nums[i]!=nums[i-1]) return nums[i-1];
+        }
+        return nums[n-1];
+    }
+
+APPROACH 3: We maintain 3 buckets: once, twice and thrice, for storing the numbers that have appeared once, twice and thrice respectively. There are 3 conditions to be followed:
+> nums[i] will go into once, if it is not in twice
+> nums[i] will go into twice, if it is not in once
+> nums[i] will go into thrice, if it is in twice
+In the end, we return the number present in once. Now if we observe carefully, we won't need the thrice bucket, as we only need add/delete numbers from once and twice. Now we have three operators in our hands to add/delete numbers from buckets, AND, OR and XOR. We might use OR for addition, but it cannot be used for deletion as 2|2=2 and it won't get deleted, so we use XOR instead, as 0^2=2 and 2^2=0. To start with the first element, we first try to insert it in once, so we update our once like 'once=(once^nums[i])&~twice', we did negation of twice because it should only go in once if it is not present in twice. Similarly, to insert in twice, we update twice like 'twice=(twice^nums[i])&~once', and it gets inserted/deleted in twice.
+    int singleNumber(vector<int>& nums) {
+        int ones = 0, twos = 0, n = nums.size();
+        for(int i=0; i<n; i++){
+            ones = (ones^nums[i])&~twos;
+            twos = (twos^nums[i])&~ones;
+        }
+        return ones;
+    }

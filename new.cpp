@@ -3,7 +3,11 @@ using namespace std;
 
 int main()
 {
-	int n = floor(-4 / 3);
-	cout << n << "\n";
+	static int value = 3;
+	if (--value)
+	{
+		main();
+		printf("%d ", value);
+	}
 	return 0;
 }
