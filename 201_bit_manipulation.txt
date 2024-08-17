@@ -160,3 +160,87 @@ In the end, we return the number present in once. Now if we observe carefully, w
         }
         return ones;
     }
+
+
+# PROBLEM: SINGLE NUMBER 3
+* Given an integer array nums, in which exactly two elements appear only once and all the other elements appear exactly twice. Find the two elements that appear only once. You can return the answer in any order.
+
+APPROACH 1: We sort the entire array and start traversing it and check if the element at i'th index is equal to i+1'th index and if it isnt' it is one of our single elements, and we check this till second last element. Then for last element we introduce a separate check.
+    vector<int> singleNumber(vector<int>& nums) {
+        sort(nums.begin(), nums.end());
+        vector<int> ans;
+        int n = nums.size();
+        for(int i=0; i<n-1; i++){
+            if(nums[i]!=nums[i+1]){
+                ans.push_back(nums[i]);
+            }
+            else i++;
+        }
+        if(nums[n-1]!=nums[n-2]) ans.push_back(nums[n-1]);
+        return ans;
+    }
+
+APPROACH 2: We take XOR of all the elements in the array, so in the end we are left with the XOR of the two single elements. As the elements are distinct, there will be at least one different bit in both the numbers, there in their XOR there will be one non zero bit. So we find this bit, that is the rightmost set bit and then we take AND of all the elements in the array with this rightmost set bit number. Now, every element will either go with b1 (bucket 1) or b2, and all them will be in pairs except for our single elements, and it is guaranteed that both of the single elements will go in separate buckets. Then we return the values stored in both the buckets.
+    vector<int> singleNumber(vector<int>& nums) {
+        long long totalXor = 0, n = nums.size();
+        for(int i=0; i<n; i++){
+            totalXor^=nums[i];
+        }
+        long long rightmost = (totalXor&(totalXor-1))^totalXor;
+        int b1=0, b2=0;
+        for(int i=0; i<n; i++){
+            if(rightmost&nums[i]) b1^=nums[i];
+            else b2^=nums[i];
+        }
+        return {b1, b2};
+    }
+
+
+#   PROBLEM: XOR OF NUMBERS IN A GIVEN RANGE
+* You are given two integers L and R, your task is to find the XOR of elements of the range [L, R].
+APPROACH: First we learn to find the XOR of numbers from 1 to N. The XOR of numbers from 1 to N follows a specific pattern which can be found by observing the XORs of numbers closely. The XOR of 1 to N repeats in blocks of 4, and XOR of 1 to N can found using that info. Now to find the XOR of L to R, we calculate the XOR of 1 to L-1 and 1 to R and take XOR of both of them.
+    int xorN(int n){
+        if(n%4==1) return 1;
+        else if(n%4==2) return n+1;
+        else if(n%4==3) return 0;
+        else return n;
+    }
+    int findXOR(int l, int r) {
+        // complete the function here
+        return xorN(l-1)^xorN(r);
+    }
+
+
+# PROBLEM: DIVIDE TWO INTEGERS WITHOUT USING THE MULTIPLICATION OR DIVISION OPERATORS
+* In this question, you need to return the integer part of the quotient and the divisor will not be zero, rest the dividend and divisor can take values between -2^31 to 2^31-1 
+* BRUTE FORCE: Subtract the divisor from dividend until the dividend becomes less than divisor and count the number of times you subtracted, which will be your answer.
+* OPTIMAL: We subtract divisor times powers of two until we can, and add that value of power of 2 to our answer. For instance, we are supposed to divide 22 by 3, so we try subtracting 3*2^0 from 22, as we can so we try 3*2^1, then 3*2^2, then 3*2^3, then 3*2^4, and here we cannot so we stop and subtract 3*2^2 and add 2^2 to our answer and again repeat the same loop until the dividend is greater than divisor.
+
+    int divide(int dividend, int divisor) {
+        // Determine the sign of the result
+        bool sign = true;
+        if((dividend < 0 && divisor > 0) || (dividend > 0 && divisor < 0)) sign = false;
+        
+        // Convert both numbers to positive long long to avoid overflow
+        long long n = abs((long long)dividend), d = abs((long long)divisor), ans = 0;
+        
+        // Perform the division using bitwise shifts
+        while(n >= d){
+            long long temp = d, multiple = 1;
+            while(n >= (temp << 1)){
+                temp <<= 1;
+                multiple <<= 1;
+            }
+            n -= temp;
+            ans += multiple;
+        }
+        
+        // Apply the sign to the result
+        if(!sign) ans = -ans;
+        
+        // Handle overflow cases
+        if(ans > INT_MAX) return INT_MAX;
+        if(ans < INT_MIN) return INT_MIN;
+        
+        return ans;
+    }
