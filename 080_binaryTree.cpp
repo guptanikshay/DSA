@@ -20,9 +20,9 @@ Node *buildTree(Node *root)
     int data;
     cout << "Enter data\n";
     cin >> data;
-    root = new Node(data);
     if (data == -1)
         return NULL;
+    root = new Node(data);
     root->data = data;
     cout << "For the left of " << data << " ";
     root->left = buildTree(root->left);
@@ -70,11 +70,8 @@ void revLevelOrderTraversal(Node *root)
         Node *temp = q.front();
         q.pop();
         s.push(temp);
-        if (temp == NULL)
-        {
-            if (!q.empty())
-                q.push(NULL);
-        }
+        if (temp == NULL && !q.empty())
+            q.push(NULL);
         else
         {
             if (temp->right)
