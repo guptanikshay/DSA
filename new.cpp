@@ -1,55 +1,68 @@
-#include <iostream>
+#include <bits/stdc++.h>
 using namespace std;
+// #define int long long
+#define M 1000000007
+// #define prDouble(x) cout << fixed <<  << x
 
-bool raising(int n)
+int countSetBits(int n)
 {
-	int digit = n % 10;
-	n /= 10;
-	while (n)
+	int cnt = 0;
+	while (n != 0)
 	{
-		if (digit >= (n % 10))
+		n &= (n - 1);
+		cnt++;
+	}
+	return cnt;
+}
+
+double probToMove(int prevDayMask, int fishToDie, int n, vector<vector<double>> &prob)
+{
+	int k = countSetBits(prevDayMask);
+	double kC2 = k * (k - 1) / 2;
+	double moveProb = 0;
+	for (int fish = 0; fish < n; fish++)
+	{
+		if ((1 << fish) & prevDayMask)
+			moveProb += (prob[fish][fishToDie]);
+	}
+	return moveProb / (1.0 * kC2);
+}
+double solve(int bitMask, int &n, vector<double> &dp, vector<vector<double>> &prob)
+{
+	int alive = countSetBits(bitMask);
+	if (alive == n)
+		return 1;
+	if (dp[bitMask] > -0.9)
+		return dp[bitMask];
+	double ans = 0;
+	for (int fish = 0; fish < n; fish++)
+	{
+		if (!(bitMask & (1 << fish)))
 		{
-			digit = n % 10;
-			n /= 10;
+			int prevDayMask = bitMask ^ (1 << fish);
+			double prevDayProb = solve(prevDayMask, n, dp, prob);
+			ans += prevDayProb * probToMove(prevDayMask, fish, n, prob);
 		}
-		else
-			return false;
 	}
-	return true;
+	return dp[bitMask] = ans;
 }
 
-bool dropping(int n)
+signed main()
 {
-	int digit = n % 10;
-	n /= 10;
-	while (n)
+	ios_base::sync_with_stdio(false);
+	cin.tie(NULL);
+	int n;
+	cin >> n;
+	vector<vector<double>> prob(n, vector<double>(n));
+	vector<double> dp((1 << n), -1);
+	for (int i = 0; i < n; i++)
 	{
-		if (digit <= (n % 10))
-		{
-			digit = n % 10;
-			n /= 10;
-		}
-		else
-			return false;
+		for (int j = 0; j < n; j++)
+			cin >> prob[i][j];
 	}
-	return true;
-}
-void print(int n, int m)
-{
-	int raise = 0, drop = 0, jumpy = 0;
-	for (int i = n; i < m; i++)
+	for (int fish = 0; fish < n; fish++)
 	{
-		if (raising(i))
-			raise++;
-		else if (dropping(i))
-			drop++;
-		else
-			jumpy++;
+		cout << (double)solve((1 << fish), n, dp, prob) << " ";
 	}
-	cout << raise << " " << drop << " " << jumpy;
-}
-int main()
-{
-
 	return 0;
 }
