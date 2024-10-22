@@ -60,7 +60,7 @@ This way modular inverse helps us to calculate the output without performing div
 
 ########## KNUTH MORRIS PRATT (KMP) PATTERN MATCHING (SUBSTRING SEARCH) ##########
 We need to check if the given pattern ('bcgl') of length N is present in the given text ('abcbcglx') of length M.
-BRUTE FORCE: We track two pointers 'i' (for text) and 'j' (for pattern). We check if text[i]==pattern[i], and if it isn't, we move forward. If it is, we mark this i as start and check if text[i+1]==pattern[j+1], and continue moving like this until text[i]!=pattern[j] or j reaches end. If we found that text[i]!=pattern[j], we make i=start+1 and j=0 and continue in the loop, and if j reaches the end, we return true.
+BRUTE FORCE: We track two pointers 'i' (for text) and 'j' (for pattern). We check if text[i]==pattern[i], and if it isn't, we move forward (i++). If it is, we mark this i as start and check if text[i+1]==pattern[j+1], and continue moving like this until text[i]!=pattern[j] or j reaches end. If we found that text[i]!=pattern[j], we make i=start+1 and j=0 and continue in the loop, and if j reaches the end, we return true.
 The TC of this approach is O(M*N).
 ***** JAVA CODES BELOW! *****
 bool hasSubstring(char[] text, char[] pattern){
