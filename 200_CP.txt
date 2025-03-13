@@ -54,13 +54,13 @@ a^(M-1) ≡ 1 (mod M), which implies to
 a^(M-2) ≡ a^-1 (mod M)
 Hence, (a^(M-2) mod M) is the modular inverse of a in modulo M.
 Now, this inv (modular inverse) can be used in division as shown below
-We need to calculate (10/2)%7, so first we multiply 10 by modular inverse of 2, that is 2^(7-2)%7, which is 4, and then we take the mod that value
+We need to calculate (10/2)%7, so first we multiply 10 by modular inverse of 2, that is 2^(7-2)%7, which is 4, and then we take the mod of that value
 (10/2)%7 => (10*4)%7 = 5
 This way modular inverse helps us to calculate the output without performing division.
 
 ########## KNUTH MORRIS PRATT (KMP) PATTERN MATCHING (SUBSTRING SEARCH) ##########
 We need to check if the given pattern ('bcgl') of length N is present in the given text ('abcbcglx') of length M.
-BRUTE FORCE: We track two pointers 'i' (for text) and 'j' (for pattern). We check if text[i]==pattern[i], and if it isn't, we move forward (i++). If it is, we mark this i as start and check if text[i+1]==pattern[j+1], and continue moving like this until text[i]!=pattern[j] or j reaches end. If we found that text[i]!=pattern[j], we make i=start+1 and j=0 and continue in the loop, and if j reaches the end, we return true.
+BRUTE FORCE: We track two pointers 'i' (for text) and 'j' (for pattern). We check if text[i]==pattern[j], and if it isn't, we move forward (i++). If it is, we mark this i as start and check if text[i+1]==pattern[j+1], and continue moving like this until text[i]!=pattern[j] or j reaches end. If we found that text[i]!=pattern[j], we make i=start+1 and j=0 and continue in the loop, and if j reaches the end, we return true.
 The TC of this approach is O(M*N).
 ***** JAVA CODES BELOW! *****
 bool hasSubstring(char[] text, char[] pattern){
@@ -82,33 +82,37 @@ bool hasSubstring(char[] text, char[] pattern){
     }
     return false;
 }
+
+
 KMP SEARCH: In the above approach, when the pattern and text mismatch after matching a few characters, we went all the way back to start+1 and checked again, but here we avoid this by matching prefix and suffix in the pattern till the matched characters, and start checking from the next index of prefix. For instance the pattern is 'abcdabcy' and it mismatched on 'y', so we start checking again from 'd', because we already checked for 'abc'.
-To execute this, we need a temporary array which can be built as shown in the code below. We basically maintain two pointers 'j' (from 0) and 'i' (from 1). temp[0] = 0 (always). Then we check pat[j]==pat[i], and if it is we do temp[i]==index+1 and index++, else we move index to lps[index-1] (if index!=0) or make lps[i]=0 and do i++.
+To execute this, we need a temporary array which can be built as shown in the code below. We basically maintain two pointers 'j' (from 0) and 'i' (from 1). temp[0] = 0 (always). Then we check pat[j]==pat[i], and if it is we do temp[i]==j+1 and j++ & i++, else we check if (j!=0) move j to temp[j-1] and then again pat[j]==pat[i], and on the other hand if j==0 we make temp[i]=0 and do i++.
+
 int[] computeTemporaryArray(char pattern[]){
-    int [] lps = new int[pattern.length];
-    int index = 0; // Here 
-    // The first value of the temporary array will be zero.
+    int [] temp = new int[pattern.length];
+    int j = 0; 
+    temp[j] = 0; // Here the first value of the temporary array will be zero.
     for(int i=1; i < pattern.length;){
-        if(pattern[i] == pattern[index]){
-            lps[i] = index + 1;
-            index++;
+        if(pattern[i] == pattern[j]){
+            temp[i] = j + 1;
+            j++;
             i++;
         } else{
-            if(index != 0){
-                index = lps[index-1];
+            if(j != 0){
+                j = temp[j-1];
             }else{
-                lps[i] =0;
+                temp[i] = 0;
                 i++;
             }
         }
     }
-    return lps;
+    return temp;
 }
+
 Then KMP search is executed as shown
 bool KMP(char []text, char []pattern){      
-    int lps[] = computeTemporaryArray(pattern);
-    int i=0;
-    int j=0;
+    int lps[] = computeTemporaryArray(pattern); // lps: longest prefix suffix
+    int i=0; // text index
+    int j=0; // pattern index
     while(i < text.length && j < pattern.length){
         if(text[i] == pattern[j]){
             i++;

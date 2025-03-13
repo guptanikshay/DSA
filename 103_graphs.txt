@@ -5,7 +5,7 @@ DFS: Ye ek recursive algo h (unlike BFS, jo iterative h). Apn ek loop run krte h
 DETECT CYCLE IN AN UNDIRECTED GRAPH USING BFS: 
 Apn BFS fashion mein hi graph ko traverse krenge, but visited array ke saath ek parent array bhi maintain krenge. Ab agr bfs krte time koi aisi node milti jo already visited hai aur wo iss ki parent node bhi nhi hai, to mtlb ek cycle exist krta hai.
 
-DETECT CYCLE IN AN UNDIRECTED GRAPH USING BFS:
+DETECT CYCLE IN AN UNDIRECTED GRAPH USING DFS:
 Same procedure as BFS, we maintain a parent array and while performing DFS if we encounter any node which is already visited and is not the parent node, we deduce that there is a cycle present.
 
 BIPARTITE GRAPH: If graph can be colored with just two colors such that no two adjacent nodes have the same color, it is called a bipartite graph. Linear graphs without any cycles and graphs with an even cycle length are always bipartite. Graphs with an odd cycle length are always non-bipartite.

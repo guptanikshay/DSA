@@ -232,6 +232,57 @@ int getMaxSum(Node *root)
     pair<int, int> ans = solve(root);
     return max(ans.first, ans.second);
 }
+
+// MINIMUM HEIGHT TREES: Given is a graph in which each node is connected to every other node only through a single path, that is, for n nodes there are n-1 edges. We need to find all the nodes which when considered as root give minimum height of tree.
+// MY APPROACH (BRUTE FORCE, TLE)
+// int getHeight(vector<vector<int>> &adj, int root, int n)
+// {
+//     queue<int> q;
+//     vector<int> vis(n, 0);
+//     int height = 0;
+//     q.push(root);
+//     while (!q.empty())
+//     {
+//         int size = q.size();
+//         while (size--)
+//         {
+//             int node = q.front();
+//             q.pop();
+//             vis[node] = 1;
+//             for (auto nbr : adj[node])
+//             {
+//                 if (!vis[nbr])
+//                     q.push(nbr);
+//             }
+//         }
+//         height++;
+//     }
+//     return height;
+// }
+// vector<int> findMinHeightTrees(int n, vector<vector<int>> &edges)
+// {
+//     vector<vector<int>> adj(n);
+//     for (auto i : edges)
+//     {
+//         adj[i[0]].push_back(i[1]);
+//         adj[i[1]].push_back(i[0]);
+//     }
+//     vector<int> height(n);
+//     int mini = INT_MAX;
+//     for (int i = 0; i < n; i++)
+//     {
+//         height[i] = getHeight(adj, i, n);
+//         mini = min(height[i], mini);
+//     }
+//     vector<int> ans;
+//     for (int i = 0; i < n; i++)
+//     {
+//         if (height[i] == mini)
+//             ans.push_back(i);
+//     }
+//     return ans;
+// }
+
 int main()
 {
 
